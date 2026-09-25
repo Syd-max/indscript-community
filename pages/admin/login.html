@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — INDSCRIPT COMMUNITY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--c-bg-alt);
+    }
+
+    .login-card {
+      max-width: 400px;
+      width: 100%;
+      background: #fff;
+      padding: var(--sp-2xl);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-md);
+    }
+
+    .login-logo {
+      display: block;
+      margin: 0 auto var(--sp-xl);
+      height: 48px;
+    }
+
+    .login-title {
+      text-align: center;
+      margin-bottom: var(--sp-xl);
+    }
+
+    .login-error {
+      display: none;
+      color: var(--c-error);
+      font-size: var(--fs-sm);
+      margin-bottom: var(--sp-md);
+      text-align: center;
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: var(--sp-xl);
+      color: var(--c-neutral);
+      font-size: var(--fs-xs);
+    }
+  </style>
+</head>
+<body>
+  <main class="login-page">
+    <div class="login-card">
+      <a href="/">
+        <img src="/assets/logo.png" alt="INDSCRIPT COMMUNITY" class="login-logo">
+      </a>
+      <h1 class="login-title">Admin Login</h1>
+      <p id="loginError" class="login-error" role="alert"></p>
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" class="form-input" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-input" required autocomplete="current-password">
+        </div>
+        <button type="submit" id="loginBtn" class="btn btn--primary" style="width:100%">Login</button>
+      </form>
+      <p class="login-footer">&copy; 2026 INDSCRIPT COMMUNITY</p>
+    </div>
+  </main>
+
+  <script type="module">
+    import { signIn, checkAdmin, signOut, getSession } from '/js/auth.js';
+
+    const form = document.getElementById('loginForm');
+    const errorEl = document.getElementById('loginError');
+    const btn = document.getElementById('loginBtn');
+    let submitting = false;
+
+    // Check on load: if session exists but not admin, sign out to break loop.
+    async function initCheck() {
+      const session = await getSession();
+      if (session) {
+        const isAdmin = await checkAdmin();
+        if (isAdmin) {
+          window.location.href = '/pages/admin/dashboard.html';
+        } else {
+          await signOut();
+        }
+      }
+    }
+    initCheck();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (submitting) return;
+      submitting = true;
+
+      errorEl.style.display = 'none';
+      btn.textContent = 'Memuat…';
+      btn.disabled = true;
+
+      try {
+        const email = form.email.value.trim();
+        const password = form.password.value;
+        await signIn(email, password);
+        
+        // Verifikasi role admin setelah login sukses
+        const isAdmin = await checkAdmin();
+        if (isAdmin) {
+          window.location.href = '/pages/admin/dashboard.html';
+        } else {
+          await signOut();
+          throw new Error('Akun Anda tidak memiliki akses Admin.');
+        }
+      } catch (err) {
+        errorEl.textContent = err.message || 'Login gagal. Periksa email dan password.';
+        errorEl.style.display = 'block';
+        btn.textContent = 'Login';
+        btn.disabled = false;
+        submitting = false;
+      }
+    });
+  </script>
+</body>
+</html>

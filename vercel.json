@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/event/:slug", "destination": "/pages/event-detail.html" },
+    { "source": "/admin", "destination": "/pages/admin/login.html" },
+    { "source": "/admin/dashboard", "destination": "/pages/admin/dashboard.html" }
+  ]
+}

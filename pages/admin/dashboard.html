@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — INDSCRIPT COMMUNITY</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <div class="admin-topbar">
+      <div class="admin-topbar__left">
+        <a href="/" class="admin-topbar__logo">
+          <img src="/assets/logo_transparent.png" alt="INDSCRIPT COMMUNITY" style="height: 48px; object-fit: contain;">
+        </a>
+        <div class="admin-topbar__title" style="margin-left: 1rem;">Dashboard</div>
+      </div>
+      <div class="admin-topbar__right" style="display: flex; align-items: center; gap: 1rem;">
+        <button id="logoutBtn" class="btn btn--outline btn--sm">Logout</button>
+        <button id="adminMenuToggle" class="admin-menu-toggle" aria-label="Toggle Menu">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="adminSidebarOverlay" class="admin-sidebar-overlay"></div>
+
+    <div class="admin-sidebar">
+      <div class="admin-sidebar__link is-active" data-target="dashboard">Dashboard</div>
+      <div class="admin-sidebar__link" data-target="events">Events</div>
+      <div class="admin-sidebar__link" data-target="registrations">Registrations</div>
+      <div class="admin-sidebar__link" data-target="members">Members</div>
+      <div class="admin-sidebar__link" data-target="collaborations">Collaborations</div>
+      <div class="admin-sidebar__link" data-target="sponsorships">Sponsorships</div>
+      <div class="admin-sidebar__link mobile-logout" id="mobileLogoutBtn">Logout</div>
+    </div>
+
+    <div class="admin-main">
+      <!-- 1. Dashboard Overview -->
+      <section id="dashboard" class="admin-section is-active">
+        <div class="admin-panel-header">
+          <h2 class="admin-panel-title">Overview</h2>
+        </div>
+        <div class="admin-stats">
+          <div class="admin-stat-card">
+            <div class="admin-stat-card__value" id="stat-events">-</div>
+            <div class="admin-stat-card__label">Total Events</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-card__value" id="stat-registrations">-</div>
+            <div class="admin-stat-card__label">Total Registrations</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-card__value" id="stat-members">-</div>
+            <div class="admin-stat-card__label">Total Members</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-card__value" id="stat-collaborations">-</div>
+            <div class="admin-stat-card__label">Pending Collaborations</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-card__value" id="stat-sponsorships">-</div>
+            <div class="admin-stat-card__label">Pending Sponsorships</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Events Management -->
+      <section id="events" class="admin-section">
+        <div class="admin-panel-header">
+          <h2 class="admin-panel-title">Events Management</h2>
+          <button id="btn-create-event" class="btn btn--primary btn--sm">Create Event</button>
+        </div>
+
+        <form id="event-form" class="admin-form" style="display: none;">
+          <h3 class="admin-form__title" id="event-form-title">Create Event</h3>
+          <input type="hidden" id="event-id">
+          
+          <div class="form-group">
+            <label for="event-title" class="form-label">Title</label>
+            <input type="text" id="event-title" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="event-slug" class="form-label">Slug</label>
+            <input type="text" id="event-slug" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="event-description" class="form-label">Description</label>
+            <textarea id="event-description" class="form-input" rows="4"></textarea>
+          </div>
+          
+          <div class="admin-form__row">
+            <div class="form-group">
+              <label for="event-date" class="form-label">Date</label>
+              <input type="date" id="event-date" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label for="event-time" class="form-label">Time</label>
+              <input type="time" id="event-time" class="form-input">
+            </div>
+          </div>
+          
+          <div class="admin-form__row">
+            <div class="form-group">
+              <label for="event-location" class="form-label">Location</label>
+              <input type="text" id="event-location" class="form-input">
+            </div>
+            <div class="form-group">
+              <label for="event-status" class="form-label">Status</label>
+              <select id="event-status" class="form-input">
+                <option value="upcoming">Upcoming</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="completed">Completed</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group" style="margin-top: 1rem;">
+            <label class="form-checkbox" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" id="event-registration-open">
+              <span class="form-checkbox__text">Registration Open</span>
+            </label>
+          </div>
+          
+          <div class="form-group" style="margin-top: 1rem;">
+            <label class="form-label">Poster Event</label>
+
+            <!-- Tab toggle -->
+            <div style="display:flex; gap:8px; margin-bottom:10px;">
+              <button type="button" onclick="switchPosterTab('upload')" id="tab-upload"
+                style="padding:5px 14px; border-radius:6px; border:2px solid #C1272D; background:#C1272D; color:#fff; font-size:0.82rem; cursor:pointer; font-weight:600;">
+                Upload Gambar
+              </button>
+              <button type="button" onclick="switchPosterTab('url')" id="tab-url"
+                style="padding:5px 14px; border-radius:6px; border:2px solid #ccc; background:#fff; color:#555; font-size:0.82rem; cursor:pointer; font-weight:600;">
+                Pakai URL
+              </button>
+            </div>
+
+            <!-- Upload panel -->
+            <div id="poster-panel-upload">
+              <input type="file" id="event-poster-file" accept="image/*" class="form-input"
+                style="padding:6px;" onchange="handlePosterUpload(this)">
+              <small style="color:#888; font-size:0.78rem; margin-top:4px; display:block;">
+                Upload file JPG/PNG/WEBP dari komputer. Otomatis tersimpan ke server.
+              </small>
+              <div id="poster-upload-status" style="margin-top:6px; font-size:0.82rem;"></div>
+            </div>
+
+            <!-- URL panel (hidden by default) -->
+            <div id="poster-panel-url" style="display:none;">
+              <input type="text" id="event-poster" class="form-input"
+                placeholder="https://... (direct link ke file gambar)" oninput="previewPoster(this.value)">
+              <small style="color:#888; font-size:0.78rem; margin-top:4px; display:block;">
+                URL harus berakhiran .jpg / .png / .webp agar bisa tampil.
+              </small>
+            </div>
+
+            <!-- Live preview -->
+            <div id="poster-preview" style="margin-top: 10px; display: none;">
+              <p style="font-size: 0.8rem; color: #555; margin-bottom: 4px;">Preview Poster:</p>
+              <img id="poster-preview-img" src="" alt="preview"
+                style="max-width: 220px; max-height: 160px; border-radius: 8px; border: 1px solid #ddd; object-fit: cover;"
+                onerror="document.getElementById('poster-error').style.display='block';"
+                onload="document.getElementById('poster-error').style.display='none';">
+              <p id="poster-error" style="display:none; font-size:0.8rem; color:red; margin-top:4px;">
+                ? Gambar tidak bisa dimuat dari URL ini.
+              </p>
+            </div>
+
+            <!-- Hidden field that stores final URL -->
+            <input type="hidden" id="event-poster-url-final">
+          </div>
+
+          <div class="admin-form__actions">
+            <button type="submit" class="btn btn--primary">Save</button>
+            <button type="button" id="btn-cancel-event" class="btn btn--outline">Cancel</button>
+          </div>
+        </form>
+
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Registration</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="events-tbody">
+              <!-- JS rendered -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. Registrations -->
+      <section id="registrations" class="admin-section">
+        <div class="admin-panel-header">
+          <h2 class="admin-panel-title">Registrations</h2>
+          <button class="btn btn--outline btn--sm" onclick="window.exportToCSV('event_registrations')" style="font-size:0.82rem;">Export to Excel</button>
+        </div>
+        
+        <div class="admin-filter" style="flex-wrap:wrap; gap:0.75rem; align-items:center;">
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <label for="filter-event">Event:</label>
+            <select id="filter-event" class="form-select">
+              <option value="">Select Event...</option>
+            </select>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.5rem; flex:1; min-width:180px;">
+            <label for="reg-search" style="white-space:nowrap; font-size:0.875rem;">Cari Nama:</label>
+            <input type="text" id="reg-search" class="form-input" placeholder="Ketik nama peserta..." style="margin:0; padding:6px 12px; font-size:0.875rem;" oninput="window.filterRegistrations()">
+          </div>
+          <span id="reg-counts" style="font-size:0.9rem; color:var(--c-text-light);"></span>
+        </div>
+
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Institution</th>
+                <th>Registered At</th>
+                <th>Checked In</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="registrations-tbody">
+              <!-- JS rendered -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4. Members -->
+      <section id="members" class="admin-section">
+        <div class="admin-panel-header">
+          <h2 class="admin-panel-title">Members</h2>
+          <button class="btn btn--outline btn--sm" onclick="window.exportToCSV('members')">Export to Excel</button>
+        </div>
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Domicile</th>
+                <th>Occupation</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="members-tbody">
+              <!-- JS rendered -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. Collaborations -->
+      <section id="collaborations" class="admin-section">
+        <div class="admin-panel-header">
+          <h2 class="admin-panel-title">Collaborations</h2>
+          <button class="btn btn--outline btn--sm" onclick="window.exportToCSV('collaborations')">Export to Excel</button>
+        </div>
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Organization</th>
+                <th>Type</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="collaborations-tbody">
+              <!-- JS rendered -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 6. Sponsorships -->
+      <section id="sponsorships" class="admin-section">
+        <div class="admin-panel-header">
+          <h2 class="admin-panel-title">Sponsorships</h2>
+          <button class="btn btn--outline btn--sm" onclick="window.exportToCSV('sponsorships')">Export to Excel</button>
+        </div>
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>PIC Name</th>
+                <th>Company</th>
+                <th>Type</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="sponsorships-tbody">
+              <!-- JS rendered -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script type="module" src="/js/admin.js"></script>
+</body>
+</html>
+
+
+
+
