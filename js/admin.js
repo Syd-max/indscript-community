@@ -1,4 +1,4 @@
-﻿import { supabase } from './supabase.js';
+import { supabase } from './supabase.js';
 import { requireAdmin, signOut } from './auth.js';
 
 function formatWIB(dateString) {
@@ -258,11 +258,11 @@ async function loadEvents() {
   const tbody = document.getElementById('events-tbody');
   tbody.innerHTML = data.map(ev => `
     <tr>
-      <td>${ev.title}</td>
-      <td>${ev.event_date || '-'}</td>
-      <td><span style="background: ${ev.status === 'upcoming' || ev.status === 'ongoing' ? '#C1272D' : '#757575'}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">${ev.status}</span></td>
-      <td>${ev.registration_open ? 'Open' : 'Closed'}</td>
-      <td>
+      <td data-label="Title">${ev.title}</td>
+      <td data-label="Date">${ev.event_date || '-'}</td>
+      <td data-label="Status"><span style="background: ${ev.status === 'upcoming' || ev.status === 'ongoing' ? '#C1272D' : '#757575'}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">${ev.status}</span></td>
+      <td data-label="Registration">${ev.registration_open ? 'Open' : 'Closed'}</td>
+      <td data-label="Actions">
         <div class="admin-actions">
           <button class="btn btn--outline btn--sm" onclick="window.editEvent('${ev.id}')">Edit</button>
           <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteEvent('${ev.id}')">Delete</button>
@@ -381,13 +381,13 @@ function renderRegistrations(data, eventId, query) {
       : (q ? 'opacity:0.4;' : '');
     return `
     <tr style="${rowStyle}">
-      <td>${hlText(reg.name, query)}</td>
-      <td>${hlText(reg.email, query)}</td>
-      <td>${hlText(reg.phone || '-', query)}</td>
-      <td>${hlText(reg.institution || '-', query)}</td>
-      <td>${formatWIB(reg.registered_at)}</td>
-      <td>${reg.checked_in ? 'Yes' : 'No'}</td>
-      <td>
+      <td data-label="Name">${hlText(reg.name, query)}</td>
+      <td data-label="Email">${hlText(reg.email, query)}</td>
+      <td data-label="Phone">${hlText(reg.phone || '-', query)}</td>
+      <td data-label="Institution">${hlText(reg.institution || '-', query)}</td>
+      <td data-label="Registered At">${formatWIB(reg.registered_at)}</td>
+      <td data-label="Checked In">${reg.checked_in ? 'Yes' : 'No'}</td>
+      <td data-label="Actions">
         ${!reg.checked_in
           ? `<button class="btn btn--primary btn--sm" onclick="window.checkIn('${reg.id}', '${eventId}')">Check In</button>`
           : `<span style="color:green; font-size:0.85rem; font-weight:500;">Checked In</span>`}
@@ -410,23 +410,23 @@ async function loadMembers() {
   const tbody = document.getElementById('members-tbody');
   tbody.innerHTML = data.map(m => `
     <tr>
-      <td>${m.name}</td>
-      <td>${m.email}</td>
-      <td>${m.phone}</td>
-      <td>${m.domicile}</td>
-      <td>${m.occupation}</td>
-      <td>${formatWIB(m.created_at)}</td>
-      <td>
+      <td data-label="Name">${m.name}</td>
+      <td data-label="Email">${m.email}</td>
+      <td data-label="Phone">${m.phone}</td>
+      <td data-label="Domicile">${m.domicile}</td>
+      <td data-label="Occupation">${m.occupation}</td>
+      <td data-label="Date">${formatWIB(m.created_at)}</td>
+      <td data-label="Status">
         <select onchange="window.updateStatus('members', '${m.id}', this.value)" style="padding:4px;">
           <option value="pending" ${m.status === 'pending' ? 'selected' : ''}>Pending</option>
           <option value="approved" ${m.status === 'approved' ? 'selected' : ''}>Approved</option>
           <option value="rejected" ${m.status === 'rejected' ? 'selected' : ''}>Rejected</option>
         </select>
       </td>
-        <td>
-          <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('members', '${m.id}')">Delete</button>
-        </td>
-      </tr>
+      <td data-label="Actions">
+        <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('members', '${m.id}')">Delete</button>
+      </td>
+    </tr>
   `).join('');
 }
 
@@ -437,12 +437,12 @@ async function loadCollaborations() {
   const tbody = document.getElementById('collaborations-tbody');
   tbody.innerHTML = data.map(c => `
     <tr>
-      <td>${c.name}</td>
-      <td>${c.organization}</td>
-      <td>${c.collaboration_type}</td>
-      <td>${c.email}</td>
-      <td>${formatWIB(c.created_at)}</td>
-      <td>
+      <td data-label="Name">${c.name}</td>
+      <td data-label="Organization">${c.organization}</td>
+      <td data-label="Type">${c.collaboration_type}</td>
+      <td data-label="Email">${c.email}</td>
+      <td data-label="Date">${formatWIB(c.created_at)}</td>
+      <td data-label="Status">
         <select onchange="window.updateStatus('collaborations', '${c.id}', this.value)" style="padding:4px;">
           <option value="pending" ${c.status === 'pending' ? 'selected' : ''}>Pending</option>
           <option value="reviewed" ${c.status === 'reviewed' ? 'selected' : ''}>Reviewed</option>
@@ -450,10 +450,10 @@ async function loadCollaborations() {
           <option value="rejected" ${c.status === 'rejected' ? 'selected' : ''}>Rejected</option>
         </select>
       </td>
-        <td>
-          <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('collaborations', '${c.id}')">Delete</button>
-        </td>
-      </tr>
+      <td data-label="Actions">
+        <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('collaborations', '${c.id}')">Delete</button>
+      </td>
+    </tr>
   `).join('');
 }
 
@@ -464,12 +464,12 @@ async function loadSponsorships() {
   const tbody = document.getElementById('sponsorships-tbody');
   tbody.innerHTML = data.map(s => `
     <tr>
-      <td>${s.pic_name}</td>
-      <td>${s.company}</td>
-      <td>${s.sponsorship_type}</td>
-      <td>${s.email}</td>
-      <td>${formatWIB(s.created_at)}</td>
-      <td>
+      <td data-label="PIC Name">${s.pic_name}</td>
+      <td data-label="Company">${s.company}</td>
+      <td data-label="Type">${s.sponsorship_type}</td>
+      <td data-label="Email">${s.email}</td>
+      <td data-label="Date">${formatWIB(s.created_at)}</td>
+      <td data-label="Status">
         <select onchange="window.updateStatus('sponsorships', '${s.id}', this.value)" style="padding:4px;">
           <option value="pending" ${s.status === 'pending' ? 'selected' : ''}>Pending</option>
           <option value="reviewed" ${s.status === 'reviewed' ? 'selected' : ''}>Reviewed</option>
@@ -477,10 +477,10 @@ async function loadSponsorships() {
           <option value="rejected" ${s.status === 'rejected' ? 'selected' : ''}>Rejected</option>
         </select>
       </td>
-        <td>
-          <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('sponsorships', '${s.id}')">Delete</button>
-        </td>
-      </tr>
+      <td data-label="Actions">
+        <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('sponsorships', '${s.id}')">Delete</button>
+      </td>
+    </tr>
   `).join('');
 }
 

@@ -2,78 +2,249 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Admin Login — INDSCRIPT COMMUNITY</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/components.v2.css">
   <style>
-    .login-page {
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; }
+
+    /* ── SCENE ── */
+    .login-scene {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--c-bg-alt);
+      background: #f4f1ea;
+      padding: 2rem 1rem;
     }
 
-    .login-card {
-      max-width: 400px;
+    /* ── BOLD ICONIC BOOK COVER ── */
+    .book-wrapper {
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
       width: 100%;
-      background: #fff;
-      padding: var(--sp-2xl);
-      border-radius: var(--r-lg);
-      box-shadow: var(--shadow-md);
+      max-width: 480px; /* Centered layout */
+      margin: 0 auto;
+      background-color: #111; /* Bold black outline */
+      padding: 12px; /* Uniform thick black border */
+      
+      /* EXACT Silhouette of the reference icon: 
+         Chamfered top corners, flat top edge, flat bottom edge, V-notch at bottom center */
+      clip-path: polygon(
+        0 40px, 
+        40px 0, 
+        calc(100% - 40px) 0, 
+        100% 40px, 
+        100% calc(100% - 30px), 
+        calc(50% + 40px) calc(100% - 30px), 
+        50% 100%, 
+        calc(50% - 40px) calc(100% - 30px), 
+        0 calc(100% - 30px)
+      );
     }
 
-    .login-logo {
-      display: block;
-      margin: 0 auto var(--sp-xl);
-      height: 48px;
+    /* ── INNER PAGE (Single page, no center line) ── */
+    .book-page {
+      background-color: #FAFAF7;
+      /* Subtle ruled paper lines */
+      background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent 27px, rgba(0,0,0,0.035) 27px, rgba(0,0,0,0.035) 28px);
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      
+      /* Inner shape geometrically synchronized to maintain a perfect 12px border */
+      clip-path: polygon(
+        0 33px, 
+        33px 0, 
+        calc(100% - 33px) 0, 
+        100% 33px, 
+        100% calc(100% - 30px), 
+        calc(50% + 40px) calc(100% - 30px), 
+        50% 100%, 
+        calc(50% - 40px) calc(100% - 30px), 
+        0 calc(100% - 30px)
+      );
+      
+      padding: 50px 40px;
     }
 
-    .login-title {
+    /* ── PAGE CONTENT (Centered) ── */
+    .page-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Branding */
+    .brand-header {
       text-align: center;
-      margin-bottom: var(--sp-xl);
+      margin-bottom: 2rem;
     }
+    .brand-logo {
+      height: 52px;
+      margin-bottom: 1rem;
+    }
+    .brand-title {
+      color: #111;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      letter-spacing: 0.15em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+    .brand-tagline {
+      color: #C1272D;
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Form */
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 0.5rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .form-input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: #222;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: #111; }
+    
+    .login-btn {
+      width: 100%;
+      padding: 1rem;
+      background: #C1272D;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .login-btn:hover { background: #a51f24; }
+    .login-btn:active { transform: scale(0.98); }
+    .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
     .login-error {
       display: none;
-      color: var(--c-error);
-      font-size: var(--fs-sm);
-      margin-bottom: var(--sp-md);
+      color: #C1272D;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
       text-align: center;
+      background: rgba(193,39,45,0.08);
+      padding: 0.5rem;
+      border-radius: 6px;
+      font-weight: 500;
     }
 
     .login-footer {
       text-align: center;
-      margin-top: var(--sp-xl);
-      color: var(--c-neutral);
-      font-size: var(--fs-xs);
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      color: #aaa;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── MOBILE RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .login-scene { padding: 1rem; }
+      
+      .book-wrapper { 
+        padding: 10px; 
+        clip-path: polygon(
+          0 30px, 
+          30px 0, 
+          calc(100% - 30px) 0, 
+          100% 30px, 
+          100% calc(100% - 25px), 
+          calc(50% + 30px) calc(100% - 25px), 
+          50% 100%, 
+          calc(50% - 30px) calc(100% - 25px), 
+          0 calc(100% - 25px)
+        );
+      }
+      
+      .book-page { 
+        padding: 40px 20px 30px; 
+        min-height: 480px;
+        clip-path: polygon(
+          0 24px, 
+          24px 0, 
+          calc(100% - 24px) 0, 
+          100% 24px, 
+          100% calc(100% - 25px), 
+          calc(50% + 30px) calc(100% - 25px), 
+          50% 100%, 
+          calc(50% - 30px) calc(100% - 25px), 
+          0 calc(100% - 25px)
+        );
+      }
+
+      .brand-title { font-size: 1.5rem; }
+      .brand-logo { height: 42px; }
+      .brand-tagline { font-size: 1.4rem; }
+      .form-group { margin-bottom: 1rem; }
+      .form-input { padding: 0.75rem 0.9rem; font-size: 0.95rem; }
+      .login-btn { padding: 0.85rem; font-size: 1rem; margin-top: 0.5rem; }
+      .login-footer { margin-top: 1.5rem; }
     }
   </style>
 </head>
 <body>
-  <main class="login-page">
-    <div class="login-card">
-      <a href="/">
-        <img src="/assets/logo.png" alt="INDSCRIPT COMMUNITY" class="login-logo">
-      </a>
-      <h1 class="login-title">Admin Login</h1>
-      <p id="loginError" class="login-error" role="alert"></p>
-      <form id="loginForm" novalidate>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" class="form-input" required autocomplete="email">
+  <main class="login-scene">
+    <!-- Single centered wrapper combining the exact cover shape and inner page shape -->
+    <div class="book-wrapper">
+      <div class="book-page">
+        <div class="page-content">
+          
+          <div class="brand-header">
+            <img src="/assets/logo.png" alt="INDSCRIPT" class="brand-logo">
+            <h1 class="brand-title">Admin Panel</h1>
+            <div class="brand-tagline">"Sahabatmu Mewujudkan Mimpi!"</div>
+          </div>
+
+          <p id="loginError" class="login-error" role="alert"></p>
+
+          <form id="loginForm" novalidate>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" class="form-input" required autocomplete="email" placeholder="admin@email.com">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" class="form-input" required autocomplete="current-password" placeholder="••••••••">
+            </div>
+            <button type="submit" id="loginBtn" class="login-btn">Login</button>
+          </form>
+
+          <p class="login-footer">&copy; 2026 INDSCRIPT COMMUNITY</p>
+
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" class="form-input" required autocomplete="current-password">
-        </div>
-        <button type="submit" id="loginBtn" class="btn btn--primary" style="width:100%">Login</button>
-      </form>
-      <p class="login-footer">&copy; 2026 INDSCRIPT COMMUNITY</p>
+      </div>
     </div>
   </main>
 
@@ -85,7 +256,6 @@
     const btn = document.getElementById('loginBtn');
     let submitting = false;
 
-    // Check on load: if session exists but not admin, sign out to break loop.
     async function initCheck() {
       const session = await getSession();
       if (session) {
@@ -112,8 +282,7 @@
         const email = form.email.value.trim();
         const password = form.password.value;
         await signIn(email, password);
-        
-        // Verifikasi role admin setelah login sukses
+
         const isAdmin = await checkAdmin();
         if (isAdmin) {
           window.location.href = '/pages/admin/dashboard.html';

@@ -290,4 +290,66 @@
   .admin-sidebar-overlay.is-active {
     display: block;
   }
+
+  /* Responsive Table Card Layout */
+  .admin-table, 
+  .admin-table thead, 
+  .admin-table tbody, 
+  .admin-table th, 
+  .admin-table td, 
+  .admin-table tr {
+    display: block;
+  }
+
+  .admin-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .admin-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid var(--c-border-light);
+    border-radius: var(--r-md);
+    background: var(--c-white);
+  }
+
+  /* Don't border the table wrapper itself so cards look distinct */
+  .admin-table-wrapper {
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+
+  .admin-table td {
+    position: relative;
+    padding: var(--sp-md) var(--sp-md) var(--sp-md) 40%;
+    border-bottom: 1px solid var(--c-border-light);
+    text-align: left;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    word-break: break-word;
+  }
+
+  .admin-table td:last-child {
+    border-bottom: none;
+  }
+
+  .admin-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: var(--sp-md);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 35%;
+    font-family: var(--ff-heading);
+    font-weight: 600;
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    color: var(--c-neutral);
+    white-space: nowrap;
+    padding-right: 10px;
+  }
 }
