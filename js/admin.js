@@ -507,7 +507,21 @@ async function loadSponsorships() {
 
 window.updateStatus = async (table, id, newStatus) => {
   if (confirm(`Update status to ${newStatus}?`)) {
-    await supabase.from(table).update({ status: newStatus }).eq('id', id);
+    try {
+      await supabase.from(table).update({ status: newStatus }).eq('id', id);
+      if (table === 'members') await loadMembers();
+      else if (table === 'collaborations') await loadCollaborations();
+      else if (table === 'sponsorships') await loadSponsorships();
+      
+      if (typeof loadDashboardStats === 'function') await loadDashboardStats();
+    } catch (err) {
+      alert("Error updating status: " + err.message);
+    }
+  } else {
+    // Revert visual change on cancel
+    if (table === 'members') await loadMembers();
+    else if (table === 'collaborations') await loadCollaborations();
+    else if (table === 'sponsorships') await loadSponsorships();
   }
 };
 
@@ -552,8 +566,8 @@ window.deleteRecord = async (table, id) => {
         title = td.textContent;
       }
       
-      // Preserve HTML for status badges/selects, otherwise use text
-      const val = (label === 'Status' || label === 'Checked In' || label === 'Registration') 
+      // Preserve HTML for status badges/selects and links, otherwise use text
+      const val = (label === 'Status' || label === 'Checked In' || label === 'Registration' || label === 'Link') 
                   ? td.innerHTML 
                   : td.textContent;
                   
