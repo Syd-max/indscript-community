@@ -207,10 +207,15 @@ function setupEventHandlers() {
     document.getElementById('event-id').value = '';
     document.getElementById('event-form-title').textContent = 'Create Event';
     form.style.display = 'block';
+    
+    const eventsTable = document.querySelector('#events .admin-table-wrapper');
+    if (eventsTable) eventsTable.style.display = 'none';
   });
 
   btnCancel.addEventListener('click', () => {
     form.style.display = 'none';
+    const eventsTable = document.querySelector('#events .admin-table-wrapper');
+    if (eventsTable) eventsTable.style.display = 'block';
   });
 
   titleInput.addEventListener('input', () => {
@@ -242,6 +247,8 @@ function setupEventHandlers() {
         await supabase.from('events').insert([data]);
       }
       form.style.display = 'none';
+      const eventsTable = document.querySelector('#events .admin-table-wrapper');
+      if (eventsTable) eventsTable.style.display = 'block';
       await loadEvents();
     } catch (err) {
       console.error('Error saving event:', err);
@@ -297,6 +304,11 @@ window.editEvent = (id) => {
   
   document.getElementById('event-form-title').textContent = 'Edit Event';
   document.getElementById('event-form').style.display = 'block';
+  
+  const eventsTable = document.querySelector('#events .admin-table-wrapper');
+  if (eventsTable) eventsTable.style.display = 'none';
+  
+  document.getElementById('event-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 
 window.deleteEvent = async (id) => {
