@@ -398,14 +398,10 @@
     word-break: break-word;
   }
 
-  /* Only show essential columns on mobile */
+  /* Only show the most essential columns (Name and Actions) on mobile */
   .admin-table td[data-label="Title"],
   .admin-table td[data-label="Name"],
   .admin-table td[data-label="PIC Name"],
-  .admin-table td[data-label="Company"],
-  .admin-table td[data-label="Organization"],
-  .admin-table td[data-label="Institution"],
-  .admin-table td[data-label="Status"],
   .admin-table td[data-label="Actions"] {
     display: flex;
   }

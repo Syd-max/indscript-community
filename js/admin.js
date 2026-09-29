@@ -264,7 +264,7 @@ async function loadEvents() {
       <td data-label="Registration">${ev.registration_open ? 'Open' : 'Closed'}</td>
       <td data-label="Actions">
         <div class="admin-actions">
-          <button class="btn btn--outline btn--sm mobile-only" style="border-color: #aaa; color: #555;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--outline btn--sm" onclick="window.editEvent('${ev.id}')">Edit</button>
           <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteEvent('${ev.id}')">Delete</button>
         </div>
@@ -390,7 +390,7 @@ function renderRegistrations(data, eventId, query) {
       <td data-label="Checked In">${reg.checked_in ? 'Yes' : 'No'}</td>
       <td data-label="Actions">
         <div class="admin-actions">
-          <button class="btn btn--outline btn--sm mobile-only" style="border-color: #aaa; color: #555;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           ${!reg.checked_in
             ? `<button class="btn btn--primary btn--sm" onclick="window.checkIn('${reg.id}', '${eventId}')">Check In</button>`
             : `<span style="color:green; font-size:0.85rem; font-weight:500;">Checked In</span>`}
@@ -429,7 +429,7 @@ async function loadMembers() {
       </td>
       <td data-label="Actions">
         <div class="admin-actions">
-          <button class="btn btn--outline btn--sm mobile-only" style="border-color: #aaa; color: #555;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('members', '${m.id}')">Delete</button>
         </div>
       </td>
@@ -459,7 +459,7 @@ async function loadCollaborations() {
       </td>
       <td data-label="Actions">
         <div class="admin-actions">
-          <button class="btn btn--outline btn--sm mobile-only" style="border-color: #aaa; color: #555;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('collaborations', '${c.id}')">Delete</button>
         </div>
       </td>
@@ -489,7 +489,7 @@ async function loadSponsorships() {
       </td>
       <td data-label="Actions">
         <div class="admin-actions">
-          <button class="btn btn--outline btn--sm mobile-only" style="border-color: #aaa; color: #555;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('sponsorships', '${s.id}')">Delete</button>
         </div>
       </td>
