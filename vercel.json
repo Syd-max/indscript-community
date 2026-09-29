@@ -1,7 +1,28 @@
 {
-  "rewrites": [
-    { "source": "/event/:slug", "destination": "/pages/event-detail.html" },
-    { "source": "/admin", "destination": "/pages/admin/login.html" },
-    { "source": "/admin/dashboard", "destination": "/pages/admin/dashboard.html" }
-  ]
+    "rewrites":  [
+                     {
+                         "destination":  "/pages/collab.html",
+                         "source":  "/collab"
+                     },
+                     {
+                         "destination":  "/pages/membership.html",
+                         "source":  "/membership"
+                     },
+                     {
+                         "destination":  "/pages/sponsor.html",
+                         "source":  "/sponsorship"
+                     },
+                     {
+                         "destination":  "/pages/event-detail.html",
+                         "source":  "/event/:slug"
+                     },
+                     {
+                         "destination":  "/pages/admin/login.html",
+                         "source":  "/admin"
+                     },
+                     {
+                         "destination":  "/pages/admin/dashboard.html",
+                         "source":  "/admin/dashboard"
+                     }
+                 ]
 }
