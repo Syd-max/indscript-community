@@ -264,7 +264,7 @@ async function loadEvents() {
       <td data-label="Registration">${ev.registration_open ? 'Open' : 'Closed'}</td>
       <td data-label="Actions">
         <div class="admin-actions">
-          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--outline btn--sm" onclick="window.editEvent('${ev.id}')">Edit</button>
           <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteEvent('${ev.id}')">Delete</button>
         </div>
@@ -390,7 +390,7 @@ function renderRegistrations(data, eventId, query) {
       <td data-label="Checked In">${reg.checked_in ? 'Yes' : 'No'}</td>
       <td data-label="Actions">
         <div class="admin-actions">
-          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           ${!reg.checked_in
             ? `<button class="btn btn--primary btn--sm" onclick="window.checkIn('${reg.id}', '${eventId}')">Check In</button>`
             : `<span style="color:green; font-size:0.85rem; font-weight:500;">Checked In</span>`}
@@ -419,6 +419,8 @@ async function loadMembers() {
       <td data-label="Phone">${m.phone}</td>
       <td data-label="Domicile">${m.domicile}</td>
       <td data-label="Occupation">${m.occupation}</td>
+      <td data-label="Interest" class="hide-col">${m.interest || '-'}</td>
+      <td data-label="Reason" class="hide-col">${m.reason || '-'}</td>
       <td data-label="Date">${formatWIB(m.created_at)}</td>
       <td data-label="Status">
         <select onchange="window.updateStatus('members', '${m.id}', this.value)" style="padding:4px;">
@@ -429,7 +431,7 @@ async function loadMembers() {
       </td>
       <td data-label="Actions">
         <div class="admin-actions">
-          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('members', '${m.id}')">Delete</button>
         </div>
       </td>
@@ -448,6 +450,9 @@ async function loadCollaborations() {
       <td data-label="Organization">${c.organization}</td>
       <td data-label="Type">${c.collaboration_type}</td>
       <td data-label="Email">${c.email}</td>
+      <td data-label="WhatsApp" class="hide-col">${c.phone || '-'}</td>
+      <td data-label="Description" class="hide-col">${c.description || '-'}</td>
+      <td data-label="Link" class="hide-col">${c.proposal_url ? `<a href="${c.proposal_url}" target="_blank" style="color:var(--c-primary);text-decoration:underline;">View Link</a>` : '-'}</td>
       <td data-label="Date">${formatWIB(c.created_at)}</td>
       <td data-label="Status">
         <select onchange="window.updateStatus('collaborations', '${c.id}', this.value)" style="padding:4px;">
@@ -459,7 +464,7 @@ async function loadCollaborations() {
       </td>
       <td data-label="Actions">
         <div class="admin-actions">
-          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('collaborations', '${c.id}')">Delete</button>
         </div>
       </td>
@@ -478,6 +483,9 @@ async function loadSponsorships() {
       <td data-label="Company">${s.company}</td>
       <td data-label="Type">${s.sponsorship_type}</td>
       <td data-label="Email">${s.email}</td>
+      <td data-label="WhatsApp" class="hide-col">${s.phone || '-'}</td>
+      <td data-label="Message" class="hide-col">${s.message || '-'}</td>
+      <td data-label="Link" class="hide-col">${s.proposal_url ? `<a href="${s.proposal_url}" target="_blank" style="color:var(--c-primary);text-decoration:underline;">View Link</a>` : '-'}</td>
       <td data-label="Date">${formatWIB(s.created_at)}</td>
       <td data-label="Status">
         <select onchange="window.updateStatus('sponsorships', '${s.id}', this.value)" style="padding:4px;">
@@ -489,7 +497,7 @@ async function loadSponsorships() {
       </td>
       <td data-label="Actions">
         <div class="admin-actions">
-          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('sponsorships', '${s.id}')">Delete</button>
         </div>
       </td>

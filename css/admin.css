@@ -142,6 +142,11 @@
   border-bottom: none;
 }
 
+.admin-table th.hide-col,
+.admin-table td.hide-col {
+  display: none !important;
+}
+
 .admin-table tr:hover td {
   background: var(--c-bg-alt);
 }
