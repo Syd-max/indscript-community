@@ -82,10 +82,75 @@ export async function loadEvents() {
     }
 
     container.innerHTML = events.map(renderEventCard).join('');
-  } catch (err) {
+      initCarousel(container);
+    } catch (err) {
     container.innerHTML = `
       <div class="empty-state" style="grid-column: 1 / -1;">
         <p class="empty-state__text">Tidak dapat memuat event. Silakan coba lagi nanti.</p>
       </div>`;
   }
 }
+
+
+function initCarousel(container) {
+  const prevBtn = document.getElementById('event-prev');
+  const nextBtn = document.getElementById('event-next');
+  if (!prevBtn || !nextBtn) return;
+    // Show slider controls on mobile
+    const controlsDiv = document.querySelector(".events-slider-controls");
+    if (controlsDiv && window.innerWidth <= 768) {
+      controlsDiv.style.display = "flex";
+    }
+  
+  let carouselInterval;
+  
+  const scrollNext = () => {
+    const card = container.querySelector('.event-card');
+    if (!card) return;
+    const scrollAmount = card.offsetWidth + 16;
+    
+    // Check if at end
+    if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+      container.scrollLeft = 0;
+    } else {
+      container.scrollLeft += scrollAmount;
+    }
+  };
+  
+  const scrollPrev = () => {
+    const card = container.querySelector('.event-card');
+    if (!card) return;
+    const scrollAmount = card.offsetWidth + 16;
+    
+    if (container.scrollLeft <= 10) {
+      container.scrollLeft = container.scrollWidth;
+    } else {
+      container.scrollLeft -= scrollAmount;
+    }
+  };
+
+  const resetAutoSlide = () => {
+    clearInterval(carouselInterval);
+    carouselInterval = setInterval(scrollNext, 7000);
+  };
+
+  nextBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    scrollNext();
+    resetAutoSlide();
+  });
+  
+  prevBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    scrollPrev();
+    resetAutoSlide();
+  });
+
+  resetAutoSlide();
+  
+  container.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+  container.addEventListener('mouseleave', resetAutoSlide);
+  container.addEventListener('touchstart', () => clearInterval(carouselInterval), {passive: true});
+  container.addEventListener('touchend', resetAutoSlide, {passive: true});
+}
+

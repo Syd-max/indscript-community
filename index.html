@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Inter:wght@400;500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css?v=2029">
-  <link rel="stylesheet" href="/css/components.css?v=2029">
+  <link rel="stylesheet" href="/css/style.css?v=2054">
+  <link rel="stylesheet" href="/css/components.v2.css?v=2062">
 </head>
 <body>
 
@@ -27,12 +27,36 @@
       </button>
 
       <div class="navbar__links" id="nav-menu" role="menubar">
-        <a href="#about" class="navbar__link" role="menuitem">About</a>
-        <a href="#events" class="navbar__link" role="menuitem">Events</a>
-        <a href="#collaboration" class="navbar__link" role="menuitem">Collaboration</a>
-        <a href="#sponsorship" class="navbar__link" role="menuitem">Sponsorship</a>
-        <a href="https://www.google.com/maps/place/Indscript+Creative/@-6.9526546,107.6098858,17z/data=!3m1!4b1!4m5!3m4!1s0x2e68e8f258e6d7d7:0xa59dad70f478ed3b!8m2!3d-6.9526546!4d107.6120745" target="_blank" rel="noopener noreferrer" class="navbar__link" role="menuitem">Map</a>
-        <a href="#membership" class="btn btn--primary btn--sm navbar__cta" role="menuitem">Join Community</a>
+        <div class="navbar__sidebar-header">
+          <img src="/assets/logo_transparent.png" alt="INDSCRIPT COMMUNITY" style="height: 84px; object-fit: contain; filter: brightness(0) invert(1);">
+          <button class="navbar__close-btn" id="nav-close" aria-label="Close menu">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <a href="/#about" class="navbar__link" role="menuitem">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          Tentang Kami
+        </a>
+        <a href="/#events" class="navbar__link" role="menuitem">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Event
+        </a>
+        <a href="/pages/collab.html" class="navbar__link" role="menuitem">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Kolaborasi
+        </a>
+        <a href="/pages/sponsor.html" class="navbar__link" role="menuitem">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          Sponsorship
+        </a>
+        <a href="https://www.google.com/maps/place/Indscript+Creative/@-6.9526546,107.6098858,17z/data=!3m1!4b1!4m5!3m4!1s0x2e68e8f258e6d7d7:0xa59dad70f478ed3b!8m2!3d-6.9526546!4d107.6120745" target="_blank" rel="noopener noreferrer" class="navbar__link" role="menuitem">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          Map
+        </a>
+        <a href="/pages/membership.html" class="btn btn--primary btn--sm navbar__cta" role="menuitem">
+          <svg class="nav-icon" style="color:white;" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+          Join Community
+        </a>
       </div>
     </div>
   </nav>
@@ -45,7 +69,7 @@
         <h1 class="hero__title">Ruang untuk <em>Berkarya</em>, Bertumbuh, dan Berkolaborasi.</h1>
         <p class="hero__desc">Indscript Community adalah ruang bagi siapa saja yang ingin bertumbuh, berbagi pengalaman, dan membangun karya bersama komunitas yang saling mendukung.</p>
         <div class="hero__actions">
-          <a href="https://indscriptcreative.com/" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--lg">Kunjungi Website Utama</a>
+          <a href="https://indscriptcreative.com/" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--lg">INDSCRIPT</a>
         </div>
       </div>
       <div class="hero__visual">
@@ -111,247 +135,27 @@
           <p class="empty-state__text" style="margin-top: 1rem;">Memuat event...</p>
         </div>
       </div>
+      <!-- Mobile slider controls -->
+      <div class="events-slider-controls" style="display:flex; justify-content:center; gap:1rem; margin-top:1.5rem;">
+        <button class="slider-btn" id="event-prev" aria-label="Event sebelumnya">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path d="M15 18 L9 12 L15 6 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </button>
+        <div style="width: 10px; height: 10px; background: var(--c-text); border-radius: 50%; margin: auto 1rem;"></div>
+        <button class="slider-btn" id="event-next" aria-label="Event berikutnya">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path d="M9 18 L15 12 L9 6 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
     </div>
   </section>
 
   <!-- ======== MEMBERSHIP ======== -->
-  <section id="membership" class="section section--alt">
-    <div class="container membership__inner">
-      <div class="membership__info">
-        <span class="section__label">Open Membership</span>
-        <h2 class="section__title">Bergabung dengan Community</h2>
-        <p class="section__desc">Menjadi bagian dari INDSCRIPT COMMUNITY memberikan akses ke berbagai kegiatan, workshop, dan jaringan komunitas kreatif.</p>
-
-        <div class="membership__benefits">
-          <div class="membership__benefit">
-            <svg class="membership__benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <div>
-              <h4>Akses Event Eksklusif</h4>
-              <p>Prioritas pendaftaran dan akses ke event khusus member.</p>
-            </div>
-          </div>
-          <div class="membership__benefit">
-            <svg class="membership__benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            <div>
-              <h4>Jaringan Komunitas</h4>
-              <p>Terhubung dengan sesama anggota dan profesional kreatif.</p>
-            </div>
-          </div>
-          <div class="membership__benefit">
-            <svg class="membership__benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            <div>
-              <h4>Materi & Resources</h4>
-              <p>Akses ke materi belajar, rekaman, dan dokumentasi kegiatan.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="membership__who">
-          <h3>Siapa yang Bisa Bergabung?</h3>
-          <ul>
-            <li>Penulis dan calon penulis</li>
-            <li>Content creator</li>
-            <li>Profesional kreatif</li>
-            <li>Mahasiswa dan pelajar</li>
-            <li>Siapa saja yang ingin berkarya dan bertumbuh</li>
-          </ul>
-        </div>
-      </div>
-      <div class="membership__form-wrapper">
-        <div class="card" style="padding: var(--sp-xl);">
-          <h3 style="font-size: var(--fs-xl); margin-bottom: var(--sp-lg);">Form Membership</h3>
-          <form id="membership-form" novalidate>
-            <div class="form-group">
-              <label class="form-label" for="member-name">Nama Lengkap <span class="required">*</span></label>
-              <input type="text" id="member-name" name="name" class="form-input" required autocomplete="name">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="member-email">Email <span class="required">*</span></label>
-              <input type="email" id="member-email" name="email" class="form-input" required autocomplete="email">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="member-phone">WhatsApp <span class="required">*</span></label>
-              <input type="tel" id="member-phone" name="phone" class="form-input" required autocomplete="tel">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="member-domicile">Domisili <span class="required">*</span></label>
-              <input type="text" id="member-domicile" name="domicile" class="form-input" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="member-occupation">Pekerjaan / Status <span class="required">*</span></label>
-              <input type="text" id="member-occupation" name="occupation" class="form-input" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="member-interest">Interest / Minat <span class="required">*</span></label>
-              <input type="text" id="member-interest" name="interest" class="form-input" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="member-reason">Alasan Bergabung <span class="required">*</span></label>
-              <textarea id="member-reason" name="reason" class="form-input" required></textarea>
-            </div>
-            <button type="submit" class="btn btn--primary btn--lg" style="width:100%;">
-              <span class="btn__text">Daftar Membership</span>
-              <span class="btn__spinner spinner" style="display:none;" aria-hidden="true"></span>
-            </button>
-          </form>
-          <div id="membership-success" class="success-state" style="display:none;">
-            <svg class="success-state__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="16 10 10.5 15.5 8 13"/></svg>
-            <h3 class="success-state__title">Registrasi Berhasil!</h3>
-            <p class="success-state__message">Informasi selanjutnya akan dikirim melalui kontak yang telah didaftarkan.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  
 
   <!-- ======== COLLABORATION ======== -->
-  <section id="collaboration" class="section">
-    <div class="container collab__inner">
-      <div class="collab__info">
-        <span class="section__label">Open Collaboration</span>
-        <h2 class="section__title">Mari Berkolaborasi</h2>
-        <p class="section__desc">INDSCRIPT COMMUNITY terbuka untuk kerja sama dengan berbagai pihak yang memiliki visi yang sejalan.</p>
-
-        <div class="collab__types">
-          <span class="collab__type">Community</span>
-          <span class="collab__type">Institusi</span>
-          <span class="collab__type">Sekolah</span>
-          <span class="collab__type">Universitas</span>
-          <span class="collab__type">Brand</span>
-          <span class="collab__type">Organisasi</span>
-          <span class="collab__type">Profesional</span>
-        </div>
-
-        <p style="font-size: var(--fs-sm); color: var(--c-text-light); margin-top: var(--sp-xl); line-height: 1.7;">
-          Kami percaya bahwa kolaborasi yang baik menghasilkan dampak yang lebih besar. Jika Anda memiliki ide, program, atau project yang ingin diwujudkan bersama, kami dengan senang hati membuka pintu kerja sama.
-        </p>
-      </div>
-      <div>
-        <div class="card" style="padding: var(--sp-xl);">
-          <h3 style="font-size: var(--fs-xl); margin-bottom: var(--sp-lg);">Form Kolaborasi</h3>
-          <form id="collaboration-form" novalidate>
-            <div class="form-group">
-              <label class="form-label" for="collab-name">Nama <span class="required">*</span></label>
-              <input type="text" id="collab-name" name="name" class="form-input" required autocomplete="name">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="collab-org">Organisasi / Perusahaan <span class="required">*</span></label>
-              <input type="text" id="collab-org" name="organization" class="form-input" required autocomplete="organization">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="collab-email">Email <span class="required">*</span></label>
-              <input type="email" id="collab-email" name="email" class="form-input" required autocomplete="email">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="collab-phone">WhatsApp <span class="required">*</span></label>
-              <input type="tel" id="collab-phone" name="phone" class="form-input" required autocomplete="tel">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="collab-type">Jenis Kolaborasi <span class="required">*</span></label>
-              <select id="collab-type" name="collaboration_type" class="form-input" required>
-                <option value="">Pilih jenis kolaborasi</option>
-                <option value="event">Event / Workshop</option>
-                <option value="content">Content Creation</option>
-                <option value="program">Program Bersama</option>
-                <option value="media">Media Partnership</option>
-                <option value="other">Lainnya</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="collab-desc">Deskripsi Proposal <span class="required">*</span></label>
-              <textarea id="collab-desc" name="description" class="form-input" required></textarea>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="collab-url">Link Portfolio / Proposal</label>
-              <input type="url" id="collab-url" name="proposal_url" class="form-input" autocomplete="url">
-            </div>
-            <button type="submit" class="btn btn--primary btn--lg" style="width:100%;">
-              <span class="btn__text">Kirim Proposal</span>
-              <span class="btn__spinner spinner" style="display:none;" aria-hidden="true"></span>
-            </button>
-          </form>
-          <div id="collaboration-success" class="success-state" style="display:none;">
-            <svg class="success-state__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="16 10 10.5 15.5 8 13"/></svg>
-            <h3 class="success-state__title">Proposal Terkirim!</h3>
-            <p class="success-state__message">Tim kami akan meninjau proposal Anda. Kami akan menghubungi melalui kontak yang telah didaftarkan.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  
 
   <!-- ======== SPONSORSHIP ======== -->
-  <section id="sponsorship" class="section section--alt">
-    <div class="container sponsor__inner">
-      <div class="sponsor__info">
-        <span class="section__label">Open Sponsorship</span>
-        <h2 class="section__title">Jadilah Sponsor</h2>
-        <p class="section__desc">Dukung kegiatan INDSCRIPT COMMUNITY dan jangkau audiens yang relevan melalui sponsorship.</p>
-
-        <div class="sponsor__types">
-          <span class="sponsor__type">Event Sponsor</span>
-          <span class="sponsor__type">Media Sponsor</span>
-          <span class="sponsor__type">Community Sponsor</span>
-          <span class="sponsor__type">In-kind Sponsor</span>
-        </div>
-
-        <p style="font-size: var(--fs-sm); color: var(--c-text-light); margin-top: var(--sp-xl); line-height: 1.7;">
-          Melalui sponsorship, brand Anda mendapatkan eksposur melalui event, konten, dan jaringan komunitas kami. Kami menawarkan berbagai bentuk kerja sama yang fleksibel sesuai kebutuhan brand Anda.
-        </p>
-      </div>
-      <div>
-        <div class="card" style="padding: var(--sp-xl);">
-          <h3 style="font-size: var(--fs-xl); margin-bottom: var(--sp-lg);">Form Sponsorship</h3>
-          <form id="sponsorship-form" novalidate>
-            <div class="form-group">
-              <label class="form-label" for="sponsor-pic">Nama PIC <span class="required">*</span></label>
-              <input type="text" id="sponsor-pic" name="pic_name" class="form-input" required autocomplete="name">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="sponsor-company">Perusahaan / Brand <span class="required">*</span></label>
-              <input type="text" id="sponsor-company" name="company" class="form-input" required autocomplete="organization">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="sponsor-email">Email <span class="required">*</span></label>
-              <input type="email" id="sponsor-email" name="email" class="form-input" required autocomplete="email">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="sponsor-phone">WhatsApp <span class="required">*</span></label>
-              <input type="tel" id="sponsor-phone" name="phone" class="form-input" required autocomplete="tel">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="sponsor-type">Jenis Sponsorship <span class="required">*</span></label>
-              <select id="sponsor-type" name="sponsorship_type" class="form-input" required>
-                <option value="">Pilih jenis sponsorship</option>
-                <option value="event">Event Sponsor</option>
-                <option value="media">Media Sponsor</option>
-                <option value="community">Community Sponsor</option>
-                <option value="inkind">In-kind Sponsor</option>
-                <option value="other">Lainnya</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="sponsor-message">Pesan</label>
-              <textarea id="sponsor-message" name="message" class="form-input"></textarea>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="sponsor-url">Link Proposal</label>
-              <input type="url" id="sponsor-url" name="proposal_url" class="form-input" autocomplete="url">
-            </div>
-            <button type="submit" class="btn btn--primary btn--lg" style="width:100%;">
-              <span class="btn__text">Kirim Sponsorship</span>
-              <span class="btn__spinner spinner" style="display:none;" aria-hidden="true"></span>
-            </button>
-          </form>
-          <div id="sponsorship-success" class="success-state" style="display:none;">
-            <svg class="success-state__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="16 10 10.5 15.5 8 13"/></svg>
-            <h3 class="success-state__title">Sponsorship Terkirim!</h3>
-            <p class="success-state__message">Tim kami akan meninjau proposal Anda. Kami akan menghubungi melalui kontak yang telah didaftarkan.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  
 
   <!-- ======== SOCIAL MEDIA ======== -->
   <section id="social" class="section">
@@ -587,14 +391,11 @@
               <rect x="-20" y="-70" width="40" height="15" fill="#CCCCCC" />
               <rect x="-20" y="-65" width="40" height="2" fill="#999999" />
               <path d="M-20 -70 L20 -70 L20 -90 C20 -100, -20 -100, -20 -90 Z" fill="#FF88AA" />
-              <path d="M-20 -10 Q-40 10 -60 -30" stroke="#C1272D" stroke-width="5" stroke-linecap="round" fill="none" />
               <circle cx="-5" cy="0" r="3" fill="#1A1A1A" />
               <circle cx="10" cy="0" r="3" fill="#1A1A1A" />
               <path d="M-2 10 Q2 15 7 10" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" fill="none" />
             </g>
-            <path d="M80 90 L80 180" stroke="#CCCCCC" stroke-width="4" stroke-linecap="round" />
-            <path d="M80 100 Q120 80 150 100 Q170 110 180 90 L180 130 Q150 150 120 130 Q90 110 80 130 Z" fill="#EC4899" />
-            <text x="100" y="125" fill="#FFFFFF" font-size="16" font-family="sans-serif" font-weight="bold" transform="rotate(-5 100 125)">WRITE IT!</text>
+            <path d="M80 100 Q120 80 150 100 Q170 110 180 90 L195 110 L180 130 Q150 150 120 130 Q90 110 80 130 L65 115 Z" fill="#EC4899" />
           </svg>
         </div>
       </div>
@@ -645,6 +446,7 @@
   
 </body>
 </html>
+
 
 
 

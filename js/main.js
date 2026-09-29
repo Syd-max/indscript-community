@@ -1,4 +1,4 @@
-import { loadEvents } from './events.js';
+import { loadEvents } from './events.js?v=2040';
 import { initForms } from './forms.js';
 
 function initNavbar() {
@@ -6,6 +6,15 @@ function initNavbar() {
   const menu = document.getElementById('nav-menu');
 
   if (!toggle || !menu) return;
+
+  const closeBtn = document.getElementById('nav-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      menu.classList.remove('is-open');
+      toggle.classList.remove('is-active');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  }
 
   toggle.addEventListener('click', () => {
     const isOpen = menu.classList.toggle('is-open');

@@ -96,8 +96,8 @@ body {
 }
 
 p {
-  text-align: justify;
-  hyphens: auto;
+  text-align: left;
+  
 }
 
 img, picture, video, canvas, svg, iframe {
