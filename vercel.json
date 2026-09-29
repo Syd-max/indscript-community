@@ -1,5 +1,8 @@
 {
   "rewrites": [
+    { "source": "/collab", "destination": "/pages/collab.html" },
+    { "source": "/membership", "destination": "/pages/membership.html" },
+    { "source": "/sponsorship", "destination": "/pages/sponsor.html" },
     { "source": "/event/:slug", "destination": "/pages/event-detail.html" },
     { "source": "/admin", "destination": "/pages/admin/login.html" },
     { "source": "/admin/dashboard", "destination": "/pages/admin/dashboard.html" }
