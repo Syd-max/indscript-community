@@ -149,7 +149,12 @@
 .admin-actions {
   display: flex;
   gap: var(--sp-sm);
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+}
+
+.admin-actions .btn {
+  white-space: nowrap;
+  word-break: normal;
 }
 
 .admin-form {
