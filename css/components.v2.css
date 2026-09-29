@@ -914,6 +914,8 @@
   position: relative;
   z-index: 9999;
   height: 52px;
+  width: max-content;
+  box-sizing: border-box;
   padding: 8px 16px;
   border-radius: 26px;
   background: rgba(20, 20, 20, 0.6);
@@ -929,6 +931,9 @@
   transform: translateX(-5px);
   background: rgba(20, 20, 20, 0.85);
 }
+.pencil-back-btn > * {
+  flex-shrink: 0;
+}
 .pencil-tip {
   width: 28px;
   height: 36px;
@@ -941,6 +946,7 @@
   display: flex;
   align-items: center;
   padding: 0 16px;
+  white-space: nowrap;
 }
 .pencil-text {
   color: #664d00; /* Dark brownish gold for engraved look */
