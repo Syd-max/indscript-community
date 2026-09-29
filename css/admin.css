@@ -201,17 +201,77 @@
 }
 
 /* Admin responsive */
-.admin-sidebar-overlay { display: none; }
-.mobile-logout { display: none; color: var(--c-primary); margin-top: auto; border-top: 1px solid var(--c-border-light); padding: var(--sp-sm) var(--sp-xl); cursor: pointer; }
-.admin-menu-toggle {
+.admin-sidebar-overlay.is-active {
+  display: block;
+}
+
+/* Detail Modal Styles */
+.admin-modal {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.admin-modal__content {
+  background: #fff;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+}
+.admin-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #eee;
+}
+.admin-modal__close {
+  background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #777; line-height: 1; padding: 0; margin: 0;
+}
+.admin-modal__body {
+  padding: 1.25rem;
+}
+.modal-detail-row {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f5f5f5;
+}
+.modal-detail-row:last-child {
+  margin-bottom: 0; border-bottom: none; padding-bottom: 0;
+}
+.modal-detail-label {
+  font-size: 0.7rem;
+  color: #777;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.modal-detail-value {
+  font-size: 0.95rem;
+  color: #222;
+  word-break: break-word;
+}
+.modal-detail-value select {
+  font-size: 0.9rem; padding: 4px; border: 1px solid #ccc; border-radius: 4px;
+}
+
+.mobile-only {
   display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--c-text);
 }
 
 @media (max-width: 768px) {
+  .mobile-only {
+    display: inline-block;
+  }
   .admin-layout {
     grid-template-columns: 1fr;
     grid-template-rows: 64px 1fr;
@@ -322,15 +382,27 @@
   }
 
   .admin-table td {
+    display: none; /* Hide all columns by default to save space */
     position: relative;
     padding: var(--sp-md) var(--sp-md) var(--sp-md) 40%;
     border-bottom: 1px solid var(--c-border-light);
     text-align: left;
     min-height: 48px;
-    display: flex;
     align-items: center;
     justify-content: flex-start;
     word-break: break-word;
+  }
+
+  /* Only show essential columns on mobile */
+  .admin-table td[data-label="Title"],
+  .admin-table td[data-label="Name"],
+  .admin-table td[data-label="PIC Name"],
+  .admin-table td[data-label="Company"],
+  .admin-table td[data-label="Organization"],
+  .admin-table td[data-label="Institution"],
+  .admin-table td[data-label="Status"],
+  .admin-table td[data-label="Actions"] {
+    display: flex;
   }
 
   .admin-table td:last-child {

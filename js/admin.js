@@ -264,6 +264,7 @@ async function loadEvents() {
       <td data-label="Registration">${ev.registration_open ? 'Open' : 'Closed'}</td>
       <td data-label="Actions">
         <div class="admin-actions">
+          <button class="btn btn--outline btn--sm mobile-only" style="border-color: #aaa; color: #555;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--outline btn--sm" onclick="window.editEvent('${ev.id}')">Edit</button>
           <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteEvent('${ev.id}')">Delete</button>
         </div>
@@ -388,9 +389,12 @@ function renderRegistrations(data, eventId, query) {
       <td data-label="Registered At">${formatWIB(reg.registered_at)}</td>
       <td data-label="Checked In">${reg.checked_in ? 'Yes' : 'No'}</td>
       <td data-label="Actions">
-        ${!reg.checked_in
-          ? `<button class="btn btn--primary btn--sm" onclick="window.checkIn('${reg.id}', '${eventId}')">Check In</button>`
-          : `<span style="color:green; font-size:0.85rem; font-weight:500;">Checked In</span>`}
+        <div class="admin-actions">
+          <button class="btn btn--outline btn--sm mobile-only" style="border-color: #aaa; color: #555;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          ${!reg.checked_in
+            ? `<button class="btn btn--primary btn--sm" onclick="window.checkIn('${reg.id}', '${eventId}')">Check In</button>`
+            : `<span style="color:green; font-size:0.85rem; font-weight:500;">Checked In</span>`}
+        </div>
       </td>
     </tr>`;
   }).join('');
@@ -424,7 +428,10 @@ async function loadMembers() {
         </select>
       </td>
       <td data-label="Actions">
-        <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('members', '${m.id}')">Delete</button>
+        <div class="admin-actions">
+          <button class="btn btn--outline btn--sm mobile-only" style="border-color: #aaa; color: #555;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('members', '${m.id}')">Delete</button>
+        </div>
       </td>
     </tr>
   `).join('');
@@ -451,7 +458,10 @@ async function loadCollaborations() {
         </select>
       </td>
       <td data-label="Actions">
-        <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('collaborations', '${c.id}')">Delete</button>
+        <div class="admin-actions">
+          <button class="btn btn--outline btn--sm mobile-only" style="border-color: #aaa; color: #555;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('collaborations', '${c.id}')">Delete</button>
+        </div>
       </td>
     </tr>
   `).join('');
@@ -478,7 +488,10 @@ async function loadSponsorships() {
         </select>
       </td>
       <td data-label="Actions">
-        <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('sponsorships', '${s.id}')">Delete</button>
+        <div class="admin-actions">
+          <button class="btn btn--outline btn--sm mobile-only" style="border-color: #aaa; color: #555;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('sponsorships', '${s.id}')">Delete</button>
+        </div>
       </td>
     </tr>
   `).join('');
@@ -513,6 +526,40 @@ window.deleteRecord = async (table, id) => {
   window.filterRegistrations = function() {
     const query = document.getElementById('reg-search')?.value || '';
     renderRegistrations(_currentRegsData, _currentRegsEventId, query);
+  };
+
+  window.showRowDetails = function(btn) {
+    const tr = btn.closest('tr');
+    const tds = tr.querySelectorAll('td');
+    let html = '';
+    let title = 'Detail Data';
+    
+    tds.forEach((td, index) => {
+      const label = td.getAttribute('data-label');
+      // Skip actions since they are already in the card
+      if (!label || label === 'Actions') return;
+      
+      // Use the first column as the modal title
+      if (index === 0) {
+        title = td.textContent;
+      }
+      
+      // Preserve HTML for status badges/selects, otherwise use text
+      const val = (label === 'Status' || label === 'Checked In' || label === 'Registration') 
+                  ? td.innerHTML 
+                  : td.textContent;
+                  
+      html += `
+        <div class="modal-detail-row">
+          <div class="modal-detail-label">${label}</div>
+          <div class="modal-detail-value">${val}</div>
+        </div>
+      `;
+    });
+    
+    document.getElementById('detailModalTitle').textContent = title;
+    document.getElementById('detailModalBody').innerHTML = html;
+    document.getElementById('detailModal').style.display = 'flex';
   };
 
 window.exportToCSV = async (table) => {

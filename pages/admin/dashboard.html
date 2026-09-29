@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/components.v2.css">
   <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
@@ -324,6 +324,19 @@
         </div>
       </section>
 
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <div id="detailModal" class="admin-modal" style="display: none;">
+    <div class="admin-modal__content">
+      <div class="admin-modal__header">
+        <h3 id="detailModalTitle" style="margin:0; font-family:var(--ff-heading); font-size:1.2rem;">Detail</h3>
+        <button class="admin-modal__close" onclick="document.getElementById('detailModal').style.display='none'">&times;</button>
+      </div>
+      <div class="admin-modal__body" id="detailModalBody">
+        <!-- JS injected details -->
+      </div>
     </div>
   </div>
 
