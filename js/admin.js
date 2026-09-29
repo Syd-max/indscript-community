@@ -263,10 +263,10 @@ async function loadEvents() {
       <td data-label="Status"><span style="background: ${ev.status === 'upcoming' || ev.status === 'ongoing' ? '#C1272D' : '#757575'}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">${ev.status}</span></td>
       <td data-label="Registration">${ev.registration_open ? 'Open' : 'Closed'}</td>
       <td data-label="Actions">
-        <div class="admin-actions">
-          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
-          <button class="btn btn--outline btn--sm" onclick="window.editEvent('${ev.id}')">Edit</button>
-          <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteEvent('${ev.id}')">Delete</button>
+        <div class="admin-actions" style="flex-wrap: nowrap; gap: 4px;">
+          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm" style="background: #ffc107; color: black; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.editEvent('${ev.id}')">Edit</button>
+          <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.deleteEvent('${ev.id}')">Delete</button>
         </div>
       </td>
     </tr>
@@ -389,10 +389,10 @@ function renderRegistrations(data, eventId, query) {
       <td data-label="Registered At">${formatWIB(reg.registered_at)}</td>
       <td data-label="Checked In">${reg.checked_in ? 'Yes' : 'No'}</td>
       <td data-label="Actions">
-        <div class="admin-actions">
-          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+        <div class="admin-actions" style="flex-wrap: nowrap; gap: 4px;">
+          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           ${!reg.checked_in
-            ? `<button class="btn btn--primary btn--sm" onclick="window.checkIn('${reg.id}', '${eventId}')">Check In</button>`
+            ? `<button class="btn btn--sm" style="background: #007bff; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.checkIn('${reg.id}', '${eventId}')">Check In</button>`
             : `<span style="color:green; font-size:0.85rem; font-weight:500;">Checked In</span>`}
         </div>
       </td>
@@ -430,9 +430,9 @@ async function loadMembers() {
         </select>
       </td>
       <td data-label="Actions">
-        <div class="admin-actions">
-          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
-          <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('members', '${m.id}')">Delete</button>
+        <div class="admin-actions" style="flex-wrap: nowrap; gap: 4px;">
+          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.deleteRecord('members', '${m.id}')">Delete</button>
         </div>
       </td>
     </tr>
@@ -463,9 +463,9 @@ async function loadCollaborations() {
         </select>
       </td>
       <td data-label="Actions">
-        <div class="admin-actions">
-          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
-          <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('collaborations', '${c.id}')">Delete</button>
+        <div class="admin-actions" style="flex-wrap: nowrap; gap: 4px;">
+          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.deleteRecord('collaborations', '${c.id}')">Delete</button>
         </div>
       </td>
     </tr>
@@ -496,9 +496,9 @@ async function loadSponsorships() {
         </select>
       </td>
       <td data-label="Actions">
-        <div class="admin-actions">
-          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 12px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
-          <button class="btn btn--outline btn--sm" style="color: red; border-color: red;" onclick="window.deleteRecord('sponsorships', '${s.id}')">Delete</button>
+        <div class="admin-actions" style="flex-wrap: nowrap; gap: 4px;">
+          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.deleteRecord('sponsorships', '${s.id}')">Delete</button>
         </div>
       </td>
     </tr>
