@@ -22,7 +22,7 @@ UPDATE members SET updated_at = created_at WHERE updated_at IS NULL;
 -- =========================================================================
 -- Note: We use 'name' for Leader/Management (as mapped) and 'community_name' for the Community.
 
-DO $do
+DO $$
 BEGIN
     -- 1. IIDN
     IF NOT EXISTS (SELECT 1 FROM members WHERE community_name = 'IIDN — Ibu-Ibu Doyan Nulis') THEN
@@ -113,4 +113,4 @@ BEGIN
         INSERT INTO members (community_name, name, email, phone, domicile, occupation, interest, reason, status, relationship_type, category, profile, instagram_url, is_highlighted)
         VALUES ('Naisar Forest Garden', '-', '-', '-', 'Indonesia', '-', '-', '-', 'approved', 'collaboration_partner', 'Environment / Food / Sustainability', 'Forest-garden/community sustainability initiative associated with environmental and food sustainability activities within Indscript''s 2026 ecosystem activities.', 'https://www.instagram.com/naisarforestgarden/', false);
     END IF;
-END $do;
+END $$;
