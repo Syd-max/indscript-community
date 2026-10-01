@@ -160,38 +160,49 @@ async function loadCommunityEcosystem() {
 
     
 
-        // Marquee
+        // Marquee (Swiper)
     if (marquee) {
-      // Show all data in marquee. Use logo or fallback.
       if (data.length > 0) {
-        marquee.parentElement.style.display = 'flex';
+        marquee.parentElement.style.display = 'block';
         
         const logosHtml = data.map(c => {
           const inner = c.logo_url 
-            ? `<img src="${c.logo_url}" alt="${c.community_name}" style="width: 100%; height: 100%; object-fit: contain; padding: 1rem;">`
-            : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800; color: var(--c-primary); font-family: var(--ff-heading);">${c.community_name.charAt(0)}</div>`;
+            ? `<img src="${c.logo_url}" alt="${c.community_name}" style="width: 100%; height: 100%; object-fit: contain; padding: 1.5rem;">`
+            : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 800; color: var(--c-primary); font-family: var(--ff-heading);">${c.community_name.charAt(0)}</div>`;
             
           return `
-            <div class="marquee-item" onclick="openEcoModal('${c.id}')" title="${c.community_name}" style="width: 140px; height: 140px; background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; transition: transform 0.2s; border: 1px solid rgba(0,0,0,0.02); overflow: hidden;">
+            <div class="swiper-slide" onclick="openEcoModal('${c.id}')" title="${c.community_name}" style="width: 280px; height: 160px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(0,0,0,0.03); overflow: hidden;">
               ${inner}
             </div>
           `;
         }).join('');
         
-        marquee.innerHTML = logosHtml + logosHtml + logosHtml; // Triple to ensure smooth infinite loop
+        marquee.innerHTML = logosHtml;
         
-        // Add hover effect to marquee items dynamically
-        if (!document.getElementById('marquee-style')) {
-           const style = document.createElement('style');
-           style.id = 'marquee-style';
-           style.innerHTML = `.marquee-item:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important; }`;
-           document.head.appendChild(style);
-        }
+        // Initialize Swiper
+        new Swiper('.ecosystem-swiper', {
+          effect: 'coverflow',
+          grabCursor: true,
+          centeredSlides: true,
+          slidesPerView: 'auto',
+          loop: true,
+          coverflowEffect: {
+            rotate: 0,
+            stretch: 50,
+            depth: 150,
+            modifier: 1,
+            slideShadows: false,
+          },
+          autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+          }
+        });
+        
       } else {
         marquee.parentElement.style.display = 'none';
       }
     }
-
   } catch (err) {
     console.error('Error loading ecosystem:', err);
     

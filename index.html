@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Inter:wght@400;500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css?v=2054">
   <link rel="stylesheet" href="/css/components.v2.css?v=2067">
-</head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />`n  </head>
 <body>
 
   <!-- ======== NAVBAR ======== -->
@@ -167,10 +167,9 @@
         
       </div>
 
-      <!-- Marquee -->
-      
-      <div class="marquee-container" style="overflow: hidden; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 2rem 0; margin-bottom: 4rem; display: flex; background: #fafafa;">
-        <div class="marquee-track" id="ecosystem-marquee" style="display: flex; gap: 2rem; align-items: center; white-space: nowrap; animation: marquee 30s linear infinite;">
+      <!-- Marquee (Swiper) -->
+      <div class="swiper ecosystem-swiper" style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 4rem 0; margin-bottom: 4rem; background: linear-gradient(135deg, #4f3396 0%, #1c0e54 100%); overflow: hidden;">
+        <div class="swiper-wrapper" id="ecosystem-marquee">
           <!-- Populated by JS -->
         </div>
       </div>
@@ -504,7 +503,7 @@
   <div id="toast" class="toast" role="alert" aria-live="polite"></div>
   <script type="module" src="/js/main.js"></script>
   
-</body>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>`n  </body>
 </html>
 
 
