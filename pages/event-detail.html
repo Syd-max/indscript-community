@@ -292,10 +292,42 @@
                 <label class="form-label" for="reg-phone">WhatsApp <span class="required">*</span></label>
                 <input type="tel" id="reg-phone" name="phone" class="form-input" required autocomplete="tel">
               </div>
-              <div class="form-group">
-                <label class="form-label" for="reg-institution">Institusi / Organisasi</label>
-                <input type="text" id="reg-institution" name="institution" class="form-input" autocomplete="organization">
-              </div>
+                <div class="form-group">
+                  <label class="form-label" for="reg-institution-type">Tipe Institusi / Organisasi</label>
+                  <input list="inst-types" id="reg-institution-type" name="institution_type" class="form-input" placeholder="Pilih atau ketik tipe institusi">
+                  <datalist id="inst-types">
+                    <option value="Asosiasi">
+                    <option value="Komunitas">
+                    <option value="Media">
+                    <option value="Profesional">
+                    <option value="Startup">
+                    <option value="UMKM">
+                    <option value="Pemerintah">
+                    <option value="Pendidikan / University / School">
+                    <option value="NGO / Non-Profit">
+                  </datalist>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="reg-institution">Nama Institusi / Organisasi <span class="required">*</span></label>
+                  <input type="text" id="reg-institution" name="institution" class="form-input" required autocomplete="organization" placeholder="Ketik nama institusi/organisasi Anda">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="reg-role">Jabatan / Peran</label>
+                  <select id="reg-role" name="role" class="form-input">
+                    <option value="" disabled selected>Pilih jabatan/peran</option>
+                    <option value="Founder">Founder</option>
+                    <option value="Director">Director</option>
+                    <option value="Staff">Staff</option>
+                    <option value="Student">Student</option>
+                    <option value="Lecturer">Lecturer</option>
+                    <option value="Government Official">Government Official</option>
+                    <option value="Community Leader">Community Leader</option>
+                    <option value="Volunteer">Volunteer</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
               <button type="submit" class="btn btn--primary btn--lg" style="width: 100%;">
                 <span class="btn__text">Daftar Sekarang</span>
                 <span class="btn__spinner spinner" style="display: none;" aria-hidden="true"></span>
