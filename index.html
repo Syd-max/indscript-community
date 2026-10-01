@@ -36,6 +36,7 @@
         <a href="/membership" class="btn btn--primary btn--sm navbar__cta" role="menuitem">
           Join Community
         </a>
+                <a href="/#ecosystem" class="navbar__link" role="menuitem">Ecosystem</a>
         <a href="/#about" class="navbar__link" role="menuitem">
           <svg class="nav-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
           Tentang Kami
@@ -157,6 +158,64 @@
   
 
   <!-- ======== SOCIAL MEDIA ======== -->
+  <!-- COMMUNITY ECOSYSTEM SECTION -->
+  <section id="ecosystem" class="section section--alt">
+    <div class="container">
+      <div class="section__header" style="text-align: center; margin-bottom: 2rem;">
+        <span class="section__label">Ecosystem</span>
+        <h2 class="section__title">Community & Partners</h2>
+        <p class="section__desc">Ekosistem resmi INDSCRIPT COMMUNITY bersama berbagai mitra strategis dan kolaborasi.</p>
+      </div>
+
+      <!-- Marquee -->
+      <div class="marquee-container" style="overflow: hidden; width: 100%; padding: 2rem 0; background: white; border-radius: 16px; margin-bottom: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex;">
+        <div class="marquee-track" id="ecosystem-marquee" style="display: flex; gap: 3rem; align-items: center; white-space: nowrap; animation: marquee 30s linear infinite;">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+      <style>
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .marquee-container:hover .marquee-track { animation-play-state: paused; }
+        
+        .ecosystem-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+        .ecosystem-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; height: 100%; border: 1px solid var(--c-gray-100); }
+        .ecosystem-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .ecosystem-card__logo { width: 64px; height: 64px; object-fit: contain; margin-bottom: 1rem; border-radius: 8px; }
+        .ecosystem-card__placeholder { width: 64px; height: 64px; background: var(--c-gray-100); color: var(--c-gray-400); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 1rem; font-size: 1.5rem; }
+        .ecosystem-card__category { font-size: 0.75rem; color: var(--c-primary); font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .ecosystem-card__name { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; font-family: var(--ff-heading); line-height: 1.3; }
+        .ecosystem-card__region { font-size: 0.875rem; color: var(--c-gray-500); display: flex; align-items: center; gap: 0.25rem; margin-bottom: 1rem; }
+        
+        /* Highlight specific styles */
+        .highlight-section { background: linear-gradient(135deg, var(--c-primary) 0%, #8c1c20 100%); border-radius: 24px; padding: 3rem 2rem; color: white; margin-bottom: 4rem; }
+        .highlight-section .ecosystem-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; backdrop-filter: blur(10px); }
+        .highlight-section .ecosystem-card__category { color: #FFD100; }
+        .highlight-section .ecosystem-card__region { color: rgba(255,255,255,0.8); }
+        .highlight-section .ecosystem-card__placeholder { background: rgba(255,255,255,0.2); color: white; }
+      </style>
+
+      <!-- Highlighted Communities -->
+      <div id="highlight-container" class="highlight-section" style="display: none;">
+        <h3 style="text-align: center; margin-bottom: 2rem; font-family: var(--ff-heading); font-size: 2rem;">Community Highlights</h3>
+        <div class="ecosystem-grid" id="ecosystem-highlights"></div>
+      </div>
+
+      <!-- All Communities -->
+      <h3 style="margin-bottom: 1.5rem; font-family: var(--ff-heading); font-size: 1.5rem;">Semua Komunitas & Mitra</h3>
+      <div class="ecosystem-grid" id="ecosystem-list">
+        <div style="text-align:center; padding: 2rem; width: 100%; color: var(--c-gray-500);">Loading ecosystem data...</div>
+      </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="eco-modal" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+      <div class="modal-content" style="background: white; border-radius: 16px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; position: relative;">
+        <button onclick="document.getElementById('eco-modal').style.display='none'" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--c-gray-500);">&times;</button>
+        <div id="eco-modal-body" style="padding: 2rem;"></div>
+      </div>
+    </div>
+  </section>
+
   <section id="social" class="section">
     <div class="container">
       <div style="text-align:center; margin-bottom: var(--sp-2xl);">

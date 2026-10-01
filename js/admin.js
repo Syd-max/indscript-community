@@ -90,6 +90,9 @@ async function loadTabData(tab) {
       case 'collaborations':
         await loadCollaborations();
         break;
+      case 'communities':
+        await loadCommunities();
+        break;
       case 'sponsorships':
         await loadSponsorships();
         break;
@@ -103,10 +106,11 @@ async function loadTabData(tab) {
 // Dashboard Overview
 // ---------------------------
 async function loadDashboardStats() {
-  const [eventsRes, regsRes, membersRes, collabsRes, sponsorsRes] = await Promise.all([
+  const [eventsRes, regsRes, membersRes, collabsRes, sponsorsRes, communitiesRes] = await Promise.all([
     supabase.from('events').select('id', { count: 'exact', head: true }),
     supabase.from('event_registrations').select('id', { count: 'exact', head: true }),
-    supabase.from('members').select('id', { count: 'exact', head: true }),
+    supabase.from('members').select('id', { count: 'exact', head: true }).is('community_name', null),
+    supabase.from('members').select('id', { count: 'exact', head: true }).not('community_name', 'is', null),
     supabase.from('collaborations').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
     supabase.from('sponsorships').select('id', { count: 'exact', head: true }).eq('status', 'pending')
   ]);
@@ -114,6 +118,7 @@ async function loadDashboardStats() {
   document.getElementById('stat-events').textContent = eventsRes.count || 0;
   document.getElementById('stat-registrations').textContent = regsRes.count || 0;
   document.getElementById('stat-members').textContent = membersRes.count || 0;
+  const statComm = document.getElementById('stat-communities'); if(statComm) statComm.textContent = communitiesRes.count || 0;
   document.getElementById('stat-collaborations').textContent = collabsRes.count || 0;
   document.getElementById('stat-sponsorships').textContent = sponsorsRes.count || 0;
 }
@@ -522,6 +527,7 @@ window.updateStatus = async (table, id, newStatus) => {
     try {
       await supabase.from(table).update({ status: newStatus }).eq('id', id);
       if (table === 'members') await loadMembers();
+      else if (table === 'communities') await loadCommunities();
       else if (table === 'collaborations') await loadCollaborations();
       else if (table === 'sponsorships') await loadSponsorships();
       
@@ -532,6 +538,7 @@ window.updateStatus = async (table, id, newStatus) => {
   } else {
     // Revert visual change on cancel
     if (table === 'members') await loadMembers();
+      else if (table === 'communities') await loadCommunities();
     else if (table === 'collaborations') await loadCollaborations();
     else if (table === 'sponsorships') await loadSponsorships();
   }
@@ -547,6 +554,7 @@ window.deleteRecord = async (table, id) => {
           return;
         }
         if (table === 'members') await loadMembers();
+      else if (table === 'communities') await loadCommunities();
         else if (table === 'collaborations') await loadCollaborations();
         else if (table === 'sponsorships') await loadSponsorships();
         
@@ -647,3 +655,109 @@ window.exportToCSV = async (table) => {
       alert("Error exporting data: " + err.message);
     }
   };
+
+
+async function loadCommunities() {
+  const searchTerm = document.getElementById('community-search')?.value.toLowerCase() || '';
+  const statusFilter = document.getElementById('community-filter-status')?.value || '';
+  const relFilter = document.getElementById('community-filter-rel')?.value || '';
+
+  let query = supabase.from('members').select('*').not('community_name', 'is', null).order('created_at', { ascending: false });
+  
+  if (statusFilter) query = query.eq('status', statusFilter);
+  if (relFilter) query = query.eq('relationship_type', relFilter);
+
+  const { data, error } = await query;
+  if (error) {
+    console.error('Error loading communities:', error);
+    return;
+  }
+  
+  const filteredData = data.filter(c => 
+    !searchTerm || 
+    (c.community_name && c.community_name.toLowerCase().includes(searchTerm)) ||
+    (c.category && c.category.toLowerCase().includes(searchTerm))
+  );
+
+  const tbody = document.getElementById('communities-tbody');
+  if(!tbody) return;
+  tbody.innerHTML = filteredData.map(c => `
+    <tr>
+      <td>${c.logo_url ? `<img src="${c.logo_url}" style="height:32px; border-radius:4px;">` : '-'}</td>
+      <td>
+        <div style="font-weight: 600;">${c.community_name || '-'}</div>
+        <div style="font-size: 0.75rem; color: #666;">${c.domicile || '-'}</div>
+      </td>
+      <td>${c.category || '-'}</td>
+      <td>${c.name || '-'}</td>
+      <td>${c.relationship_type === 'community_under_indscript' ? 'Under Indscript' : c.relationship_type === 'strategic_partner' ? 'Strategic' : 'Collaboration'}</td>
+      <td>
+        <input type="checkbox" onchange="window.toggleHighlight('${c.id}', this.checked)" ${c.is_highlighted ? 'checked' : ''}>
+      </td>
+      <td>
+        <select onchange="window.updateStatus('members', '${c.id}', this.value)" style="padding:4px;">
+          <option value="pending" ${c.status === 'pending' ? 'selected' : ''}>Pending</option>
+          <option value="approved" ${c.status === 'approved' ? 'selected' : ''}>Approved</option>
+          <option value="rejected" ${c.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+        </select>
+      </td>
+      <td>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn--sm" style="background: var(--c-primary); color: white; border: none; padding: 4px 8px;" onclick="window.editCommunity('${c.id}')">Edit</button>
+          <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px;" onclick="window.deleteRecord('members', '${c.id}')">Delete</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+window.toggleHighlight = async (id, isHighlighted) => {
+  const { error } = await supabase.from('members').update({ is_highlighted: isHighlighted }).eq('id', id);
+  if (error) alert('Error updating highlight');
+  else await loadCommunities();
+};
+
+window.editCommunity = async (id) => {
+  const { data, error } = await supabase.from('members').select('*').eq('id', id).single();
+  if (error || !data) return alert('Error fetching data');
+  
+  const formHtml = `
+    <input type="hidden" id="edit-comm-id" value="${data.id}">
+    <div><label>Community Name</label><input type="text" id="edit-comm-name" value="${data.community_name || ''}" class="form-input"></div>
+    <div><label>Category</label><input type="text" id="edit-comm-category" value="${data.category || ''}" class="form-input"></div>
+    <div><label>Profile</label><textarea id="edit-comm-profile" class="form-input">${data.profile || ''}</textarea></div>
+    <div><label>Leader/Management (Name)</label><input type="text" id="edit-comm-leader" value="${data.name || ''}" class="form-input"></div>
+    <div><label>Member Count</label><input type="text" id="edit-comm-count" value="${data.member_count || ''}" class="form-input"></div>
+    <div><label>Region</label><input type="text" id="edit-comm-region" value="${data.domicile || ''}" class="form-input"></div>
+    <div><label>Logo URL</label><input type="text" id="edit-comm-logo" value="${data.logo_url || ''}" class="form-input"></div>
+    <div><label>Instagram URL</label><input type="text" id="edit-comm-ig" value="${data.instagram_url || ''}" class="form-input"></div>
+    <div><label>Website URL</label><input type="text" id="edit-comm-web" value="${data.website_url || ''}" class="form-input"></div>
+  `;
+  document.getElementById('community-modal-form').innerHTML = formHtml;
+  document.getElementById('community-modal').style.display = 'flex';
+};
+
+document.addEventListener('click', async (e) => {
+  if (e.target && e.target.id === 'save-community-btn') {
+    const id = document.getElementById('edit-comm-id').value;
+    const updates = {
+      community_name: document.getElementById('edit-comm-name').value,
+      category: document.getElementById('edit-comm-category').value,
+      profile: document.getElementById('edit-comm-profile').value,
+      name: document.getElementById('edit-comm-leader').value,
+      member_count: document.getElementById('edit-comm-count').value,
+      domicile: document.getElementById('edit-comm-region').value,
+      logo_url: document.getElementById('edit-comm-logo').value,
+      instagram_url: document.getElementById('edit-comm-ig').value,
+      website_url: document.getElementById('edit-comm-web').value,
+      updated_at: new Date().toISOString()
+    };
+    
+    const { error } = await window.supabase.from('members').update(updates).eq('id', id);
+    if (error) alert('Failed to update community');
+    else {
+      document.getElementById('community-modal').style.display = 'none';
+      await loadCommunities();
+    }
+  }
+});
