@@ -294,18 +294,23 @@
               </div>
                 <div class="form-group">
                   <label class="form-label" for="reg-institution-type">Tipe Institusi / Organisasi</label>
-                  <input list="inst-types" id="reg-institution-type" name="institution_type" class="form-input" placeholder="Pilih atau ketik tipe institusi">
-                  <datalist id="inst-types">
-                    <option value="Asosiasi">
-                    <option value="Komunitas">
-                    <option value="Media">
-                    <option value="Profesional">
-                    <option value="Startup">
-                    <option value="UMKM">
-                    <option value="Pemerintah">
-                    <option value="Pendidikan / University / School">
-                    <option value="NGO / Non-Profit">
-                  </datalist>
+                  <select id="reg-institution-type" name="institution_type" class="form-input" onchange="document.getElementById('reg-institution-type-other-group').style.display = this.value === 'Lainnya' ? 'block' : 'none';">
+                    <option value="" disabled selected>Pilih tipe institusi</option>
+                    <option value="Asosiasi">Asosiasi</option>
+                    <option value="Komunitas">Komunitas</option>
+                    <option value="Media">Media</option>
+                    <option value="Profesional">Profesional</option>
+                    <option value="Startup">Startup</option>
+                    <option value="UMKM">UMKM</option>
+                    <option value="Pemerintah">Pemerintah</option>
+                    <option value="Pendidikan / University / School">Pendidikan / University / School</option>
+                    <option value="NGO / Non-Profit">NGO / Non-Profit</option>
+                    <option value="Lainnya">Lainnya.....</option>
+                  </select>
+                </div>
+                <div class="form-group" id="reg-institution-type-other-group" style="display: none;">
+                  <label class="form-label" for="reg-institution-type-other">Ketik Tipe Institusi <span class="required">*</span></label>
+                  <input type="text" id="reg-institution-type-other" name="institution_type_other" class="form-input" placeholder="Ketik tipe institusi Anda">
                 </div>
 
                 <div class="form-group">
