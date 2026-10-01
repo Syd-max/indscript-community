@@ -191,18 +191,25 @@ async function loadCommunityEcosystem() {
            document.head.appendChild(style);
         }
         
-        // Initialize Swiper
-        new Swiper('.ecosystem-swiper', {
-          grabCursor: true,
-          slidesPerView: 'auto',
-          loop: true,
-          speed: 4000,
-          allowTouchMove: true,
-          autoplay: {
-            delay: 0,
-            disableOnInteraction: false,
-          }
-        });
+                // Initialize Swiper
+        if (typeof Swiper !== 'undefined') {
+          new Swiper('.ecosystem-swiper', {
+            grabCursor: true,
+            slidesPerView: 'auto',
+            loop: true,
+            speed: 4000,
+            allowTouchMove: true,
+            autoplay: {
+              delay: 0,
+              disableOnInteraction: false,
+            }
+          });
+        } else {
+          marquee.style.display = 'flex';
+          marquee.style.overflowX = 'auto';
+          marquee.style.gap = '2rem';
+          marquee.style.padding = '1rem 2rem';
+        }
         
       } else {
         marquee.parentElement.style.display = 'none';
