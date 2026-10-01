@@ -425,7 +425,7 @@ window.checkIn = async (regId, eventId) => {
 };
 
 async function loadMembers() {
-  const { data, error } = await supabase.from('members').select('*').order('created_at', { ascending: false });
+  const { data, error } = await supabase.from('members').select('*').is('community_name', null).order('created_at', { ascending: false });
   if (error) throw error;
   
   const tbody = document.getElementById('members-tbody');

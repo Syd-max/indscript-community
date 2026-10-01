@@ -247,6 +247,61 @@
       </section>
 
       <!-- 4. Members -->
+            <!-- 7. COMMUNITY ECOSYSTEM SECTION -->
+      <section id="communities" class="admin-section">
+        <div class="admin-panel-header" style="flex-wrap: wrap; gap: 1rem;">
+          <h2 class="admin-panel-title">Community Ecosystem</h2>
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <input type="text" id="community-search" class="form-input" placeholder="Search community..." style="max-width: 200px;">
+            <select id="community-filter-status" class="form-input" style="max-width: 150px;">
+              <option value="">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            <select id="community-filter-rel" class="form-input" style="max-width: 200px;">
+              <option value="">All Relationships</option>
+              <option value="community_under_indscript">Under Indscript</option>
+              <option value="strategic_partner">Strategic Partner</option>
+              <option value="collaboration_partner">Collaboration Partner</option>
+            </select>
+          </div>
+        </div>
+        <div class="admin-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Logo</th>
+                <th>Community</th>
+                <th>Category</th>
+                <th>Leader</th>
+                <th>Relationship</th>
+                <th>Highlight</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="communities-tbody">
+              <!-- Data will be loaded here -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Modal for Edit Community -->
+      <div id="community-modal" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div class="modal-content" style="background: white; padding: 2rem; border-radius: 8px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto;">
+          <h3 style="margin-bottom: 1rem; font-family: var(--ff-heading);">Edit Community</h3>
+          <div id="community-modal-form" style="display: flex; flex-direction: column; gap: 1rem;">
+              <!-- Form fields populated by JS -->
+          </div>
+          <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end;">
+            <button class="btn btn--outline" onclick="document.getElementById('community-modal').style.display='none'">Cancel</button>
+            <button class="btn btn--primary" id="save-community-btn">Save</button>
+          </div>
+        </div>
+      </div>
+
       <section id="members" class="admin-section">
         <div class="admin-panel-header">
           <h2 class="admin-panel-title">Members</h2>

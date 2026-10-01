@@ -1,3 +1,4 @@
+import { supabase } from './supabase.js';
 import { loadEvents } from './events.js?v=2040';
 import { initForms } from './forms.js';
 
@@ -115,7 +116,7 @@ async function loadCommunityEcosystem() {
   if (!list) return;
 
   try {
-    const { data, error } = await window.supabase
+    const { data, error } = await supabase
       .from('members')
       .select('*')
       .not('community_name', 'is', null)
