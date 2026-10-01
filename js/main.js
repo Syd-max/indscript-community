@@ -171,7 +171,7 @@ async function loadCommunityEcosystem() {
             : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 800; color: var(--c-primary); font-family: var(--ff-heading);">${c.community_name.charAt(0)}</div>`;
             
           return `
-            <div class="swiper-slide" onclick="openEcoModal('${c.id}')" title="${c.community_name}" style="width: 280px; height: 160px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(0,0,0,0.03); overflow: hidden;">
+            <div class="swiper-slide glass-slide" onclick="openEcoModal('${c.id}')" title="${c.community_name}" style="width: 250px; height: 140px; background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; margin: 0 16px;">
               ${inner}
             </div>
           `;
@@ -179,22 +179,26 @@ async function loadCommunityEcosystem() {
         
         marquee.innerHTML = logosHtml;
         
+        // Add linear transition for smooth continuous scroll
+        if (!document.getElementById('swiper-linear-style')) {
+           const style = document.createElement('style');
+           style.id = 'swiper-linear-style';
+           style.innerHTML = `
+             .ecosystem-swiper .swiper-wrapper { transition-timing-function: linear !important; }
+             .glass-slide:hover { background: rgba(255,255,255,0.8) !important; transform: translateY(-3px); transition: all 0.3s ease; box-shadow: 0 12px 40px rgba(0,0,0,0.1) !important; }
+           `;
+           document.head.appendChild(style);
+        }
+        
         // Initialize Swiper
         new Swiper('.ecosystem-swiper', {
-          effect: 'coverflow',
           grabCursor: true,
-          centeredSlides: true,
           slidesPerView: 'auto',
           loop: true,
-          coverflowEffect: {
-            rotate: 0,
-            stretch: 50,
-            depth: 150,
-            modifier: 1,
-            slideShadows: false,
-          },
+          speed: 4000,
+          allowTouchMove: true,
           autoplay: {
-            delay: 2500,
+            delay: 0,
             disableOnInteraction: false,
           }
         });
