@@ -218,7 +218,7 @@ window.openEcoModal = (id) => {
       <p style="margin: 0; line-height: 1.6; color: var(--c-gray-700);">${c.profile || 'Tidak ada deskripsi profil.'}</p>
     </div>
     
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
       <div>
         <div style="font-size: 0.75rem; color: var(--c-gray-500); margin-bottom: 0.25rem;">Pemimpin / Pengelola</div>
         <div style="font-weight: 600;">${c.name && c.name !== '-' ? c.name : 'Tidak tersedia'}</div>
@@ -231,10 +231,14 @@ window.openEcoModal = (id) => {
         <div style="font-size: 0.75rem; color: var(--c-gray-500); margin-bottom: 0.25rem;">Wilayah / Region</div>
         <div style="font-weight: 600;">${c.domicile || 'Tidak tersedia'}</div>
       </div>
-      <div>
-        <div style="font-size: 0.75rem; color: var(--c-gray-500); margin-bottom: 0.25rem;">Status Hubungan</div>
-        <div style="font-weight: 600;">${relLabel}</div>
-      </div>
+    </div>
+    
+    <div style="border-top: 1px solid var(--c-gray-200); padding-top: 1.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      ${c.website_url ? `<a href="${c.website_url}" target="_blank" style="padding: 0.5rem 1rem; background: var(--c-primary); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Website</a>` : ''}
+      ${c.instagram_url ? `<a href="${c.instagram_url}" target="_blank" style="padding: 0.5rem 1rem; background: #E1306C; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> Instagram</a>` : ''}
+      ${c.facebook_url ? `<a href="${c.facebook_url}" target="_blank" style="padding: 0.5rem 1rem; background: #1877F2; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg> Facebook</a>` : ''}
+      ${c.linkedin_url ? `<a href="${c.linkedin_url}" target="_blank" style="padding: 0.5rem 1rem; background: #0077B5; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg> LinkedIn</a>` : ''}
+      ${c.youtube_url ? `<a href="${c.youtube_url}" target="_blank" style="padding: 0.5rem 1rem; background: #FF0000; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg> YouTube</a>` : ''}
     </div>
     
     <div style="display: flex; gap: 1rem; justify-content: center;">
