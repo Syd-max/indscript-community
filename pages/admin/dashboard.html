@@ -16,17 +16,17 @@
 <body>
   <div class="admin-layout">
     <div class="admin-topbar">
-      <div class="admin-topbar__left">
+            <div class="admin-topbar__left" style="display: flex; align-items: center;">
+        <button id="adminMenuToggle" class="admin-menu-toggle" aria-label="Toggle Menu" style="margin-right: 1rem; background: none; border: none; cursor: pointer; color: var(--c-text); display: flex; align-items: center; justify-content: center;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
         <a href="/" class="admin-topbar__logo">
           <img src="/assets/logo_transparent.png" alt="INDSCRIPT COMMUNITY" style="height: 48px; object-fit: contain;">
         </a>
         <div class="admin-topbar__title" style="margin-left: 1rem;">Dashboard</div>
       </div>
       <div class="admin-topbar__right" style="display: flex; align-items: center; gap: 1rem;">
-        <button id="logoutBtn" class="btn btn--outline btn--sm">Logout</button>
-        <button id="adminMenuToggle" class="admin-menu-toggle" aria-label="Toggle Menu">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-        </button>
+        <button id="logoutBtn" class="btn btn--sm" style="background-color: #dc2626; color: white; border: none;">Logout</button>
       </div>
     </div>
     <div id="adminSidebarOverlay" class="admin-sidebar-overlay"></div>

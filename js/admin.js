@@ -22,9 +22,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!user) return;
 
   // 2. Setup logout
-  const logoutHandler = async () => {
-    await signOut();
-    window.location.href = '/pages/admin/login.html';
+    const logoutHandler = async () => {
+    if (confirm("Apakah Anda yakin ingin logout?")) {
+      await signOut();
+      window.location.href = '/pages/admin/login.html';
+    }
   };
   const mainLogout = document.getElementById('logoutBtn');
   if (mainLogout) mainLogout.addEventListener('click', logoutHandler);
