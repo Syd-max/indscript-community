@@ -108,6 +108,7 @@
 
 .navbar__cta {
   margin-left: var(--sp-md);
+  order: 99;
 }
 
 .navbar__toggle {
@@ -778,8 +779,7 @@
     left: 0;
   }
 
-    .navbar__sidebar-header {
-    display: flex;
+    .navbar__sidebar-header { display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: var(--sp-lg);
@@ -844,8 +844,7 @@
 
   .navbar__cta {
     margin-left: 0;
-    width: calc(100% - 16px);
-    order: -1; margin-bottom: var(--sp-xl); margin-top: 0;
+    width: calc(100% - 16px); margin-bottom: var(--sp-xl); margin-top: 0;
     display: flex;
     align-items: center;
     justify-content: center;
