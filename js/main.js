@@ -73,6 +73,7 @@ async function init() {
   ]);
 
   initCarousel();
+  loadCommunityEcosystem();
 }
 
 function initCarousel() {
@@ -256,16 +257,10 @@ window.openEcoModal = (id) => {
       ${c.youtube_url ? `<a href="${c.youtube_url}" target="_blank" style="padding: 0.5rem 1rem; background: #FF0000; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg> YouTube</a>` : ''}
     </div>
     
-    <div style="display: flex; gap: 1rem; justify-content: center;">
-      ${c.instagram_url ? `<a href="${c.instagram_url}" target="_blank" class="btn btn--outline btn--sm">Instagram</a>` : ''}
-      ${c.website_url ? `<a href="${c.website_url}" target="_blank" class="btn btn--outline btn--sm">Website</a>` : ''}
-    </div>
+
   `;
   
   document.getElementById('eco-modal-body').innerHTML = html;
   document.getElementById('eco-modal').style.display = 'flex';
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadCommunityEcosystem();
-});
