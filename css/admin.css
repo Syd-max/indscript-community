@@ -1,9 +1,10 @@
 /* Admin Dashboard Styles */
 .admin-layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 64px 1fr;
   min-height: 100vh;
+  position: relative;
 }
 
 .admin-topbar {
@@ -34,9 +35,23 @@
 }
 
 .admin-sidebar {
-  background: var(--c-bg-alt);
+  position: fixed;
+  top: 64px;
+  left: -100%;
+  width: 250px;
+  height: calc(100vh - 64px);
+  background: var(--c-white);
   border-right: 1px solid var(--c-border-light);
+  box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+  transition: left 0.3s ease;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
   padding: var(--sp-lg) 0;
+}
+.admin-sidebar.is-open {
+  left: 0;
 }
 
 .admin-sidebar__link {
@@ -50,6 +65,7 @@
   color: var(--c-text-light);
   transition: color var(--tr-fast), background var(--tr-fast);
   cursor: pointer;
+  border-left: 3px solid transparent;
 }
 
 .admin-sidebar__link:hover {
@@ -60,7 +76,7 @@
 .admin-sidebar__link.is-active {
   color: var(--c-primary);
   background: rgba(193, 39, 45, 0.05);
-  border-right: 3px solid var(--c-primary);
+  border-left: 3px solid var(--c-primary);
 }
 
 .admin-main {
@@ -210,8 +226,23 @@
   max-width: 300px;
 }
 
-/* Admin responsive */
-.admin-sidebar-overlay, .admin-menu-toggle, .mobile-logout { display: none; }
+/* Admin universal UI components */
+.mobile-logout { display: none; }
+.admin-menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.admin-sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 64px);
+  background: rgba(0,0,0,0.3);
+  z-index: 99;
+}
 .admin-sidebar-overlay.is-active {
   display: block;
 }
@@ -283,11 +314,7 @@
   .mobile-only {
     display: inline-block;
   }
-  .admin-layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: 64px 1fr;
-    position: relative;
-  }
+
 
   .admin-topbar__title,
   #logoutBtn {
@@ -301,11 +328,7 @@
     font-weight: 500;
   }
 
-  .admin-menu-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+
 
   .admin-sidebar {
     position: fixed;
