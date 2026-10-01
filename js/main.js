@@ -110,10 +110,10 @@ if (document.readyState === 'loading') {
 async function loadCommunityEcosystem() {
   const marquee = document.getElementById('ecosystem-marquee');
   const highlights = document.getElementById('ecosystem-highlights');
-  const list = document.getElementById('ecosystem-list');
+  
   const highlightContainer = document.getElementById('highlight-container');
   
-  if (!list) return;
+  
 
   try {
     const { data, error } = await supabase
@@ -126,7 +126,7 @@ async function loadCommunityEcosystem() {
     if (error) throw error;
 
     if (!data || data.length === 0) {
-      list.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 2rem; color: var(--c-gray-500);">Belum ada data komunitas.</div>';
+      if (marquee) marquee.parentElement.style.display = 'none';
       return;
     }
 
@@ -158,8 +158,7 @@ async function loadCommunityEcosystem() {
       highlights.innerHTML = highlightData.map(c => renderCard(c, true)).join('');
     }
 
-    // All List
-    list.innerHTML = data.map(c => renderCard(c, false)).join('');
+    
 
         // Marquee
     if (marquee) {
@@ -195,7 +194,7 @@ async function loadCommunityEcosystem() {
 
   } catch (err) {
     console.error('Error loading ecosystem:', err);
-    list.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 2rem; color: #da3633;">Gagal memuat data ekosistem.</div>';
+    
   }
 }
 
