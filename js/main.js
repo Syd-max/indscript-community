@@ -172,7 +172,7 @@ async function loadCommunityEcosystem() {
             : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 800; color: var(--c-primary); font-family: var(--ff-heading);">${c.community_name.charAt(0)}</div>`;
             
           return `
-            <div class="swiper-slide glass-slide" onclick="openEcoModal('${c.id}')" title="${c.community_name}" style="width: 250px; height: 140px; background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; margin: 0 16px;">
+            <div class="swiper-slide glass-slide" onclick="openEcoModal('${c.id}')" title="${c.community_name}" style="width: 280px; height: 160px; background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 1); box-shadow: 0 15px 35px rgba(140, 28, 32, 0.06), inset 0 0 0 1px rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; margin: 0 16px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
               ${inner}
             </div>
           `;
@@ -186,7 +186,7 @@ async function loadCommunityEcosystem() {
            style.id = 'swiper-linear-style';
            style.innerHTML = `
              .ecosystem-swiper .swiper-wrapper { transition-timing-function: linear !important; }
-             .glass-slide:hover { background: rgba(255,255,255,0.8) !important; transform: translateY(-3px); transition: all 0.3s ease; box-shadow: 0 12px 40px rgba(0,0,0,0.1) !important; }
+             .glass-slide:hover { transform: translateY(-8px) scale(1.02) !important; background: rgba(255,255,255,0.95) !important; box-shadow: 0 25px 45px rgba(140,28,32,0.12), 0 0 20px rgba(255,209,0,0.2) !important; border-color: rgba(255,209,0,0.5) !important; }
            `;
            document.head.appendChild(style);
         }
