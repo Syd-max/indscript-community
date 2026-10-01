@@ -211,6 +211,7 @@
 }
 
 /* Admin responsive */
+.admin-sidebar-overlay, .admin-menu-toggle, .mobile-logout { display: none; }
 .admin-sidebar-overlay.is-active {
   display: block;
 }
