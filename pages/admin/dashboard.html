@@ -249,25 +249,24 @@
       <!-- 4. Members -->
             <!-- 7. COMMUNITY ECOSYSTEM SECTION -->
       <section id="communities" class="admin-section">
-        <div class="admin-panel-header" style="flex-wrap: wrap; gap: 1rem;">
-          <h2 class="admin-panel-title">Community Ecosystem</h2>
-          <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-            <button class="btn btn--sm" style="background: var(--c-primary); color: white; border: none; font-weight: 600;" onclick="window.openAddCommunityModal()">+ Add Manual</button>
-            <input type="text" id="community-search" class="form-input" placeholder="Search community..." style="max-width: 200px;">
-            <select id="community-filter-status" class="form-input" style="max-width: 150px;">
-              <option value="">All Status</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
-            </select>
-            <select id="community-filter-rel" class="form-input" style="max-width: 200px;">
-              <option value="">All Relationships</option>
-              <option value="community_under_indscript">Under Indscript</option>
-              <option value="strategic_partner">Strategic Partner</option>
-              <option value="collaboration_partner">Collaboration Partner</option>
-            </select>
+        <div class="admin-panel-header" style="flex-direction: column; align-items: flex-start; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; flex-wrap: wrap; gap: 1rem;">
+              <h2 class="admin-panel-title" style="margin: 0;">Community Ecosystem</h2>
+              <button class="btn btn--sm" style="background: var(--c-primary); color: white; border: none; font-weight: 600;" onclick="window.openAddCommunityModal()">+ Add Manual</button>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; width: 100%; background: #f9fafb; padding: 1rem; border-radius: 8px; border: 1px solid #e5e7eb;">
+              <input type="text" id="community-search" class="form-input" placeholder="Search name or category..." style="flex: 1; min-width: 200px; margin-bottom: 0;">
+              <select id="community-filter-status" class="form-input" style="width: auto; min-width: 130px; margin-bottom: 0;">
+                <option value="">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+              </select>
+              <select id="community-filter-category" class="form-input" style="width: auto; min-width: 160px; margin-bottom: 0;">
+                <option value="">All Categories</option>
+              </select>
+            </div>
           </div>
-        </div>
         <div class="admin-table-container">
           <table class="admin-table">
             <thead>
