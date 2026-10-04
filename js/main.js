@@ -166,7 +166,13 @@ async function loadCommunityEcosystem() {
       if (data.length > 0) {
         marquee.parentElement.style.display = 'block';
         
-        const logosHtml = data.map(c => {
+        let displayData = [];
+          if (data.length > 0) {
+            while (displayData.length < 25) {
+              displayData = displayData.concat(data);
+            }
+          }
+          const logosHtml = displayData.map(c => {
           const inner = c.logo_url 
             ? `<img src="${c.logo_url}" alt="${c.community_name}" style="width: 100%; height: 100%; object-fit: contain; padding: 1.2rem;">`
             : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: var(--c-primary); font-family: var(--ff-heading);">${c.community_name.charAt(0)}</div>`;
@@ -196,7 +202,7 @@ async function loadCommunityEcosystem() {
           new Swiper('.ecosystem-swiper', {
             slidesPerView: 'auto',
             loop: true,
-            speed: 3500,
+            speed: 2500,
             allowTouchMove: false,
             autoplay: {
               delay: 0,
@@ -269,6 +275,7 @@ window.openEcoModal = (id) => {
   document.getElementById('eco-modal-body').innerHTML = html;
   document.getElementById('eco-modal').style.display = 'flex';
 };
+
 
 
 
