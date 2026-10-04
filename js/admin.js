@@ -750,8 +750,8 @@ async function loadCommunities() {
         <td data-label="Logo">${c.logo_url ? `<img src="${c.logo_url}" style="height:32px; border-radius:4px;">` : '-'}</td>
         <td data-label="Community">
           <div style="font-weight: 600;">${c.community_name || '-'}</div>
-          <div style="font-size: 0.75rem; color: #666;">${c.domicile || '-'}</div>
         </td>
+        <td data-label="Region" class="hide-col-mobile">${c.domicile || '-'}</td>
         <td data-label="Category">${c.category || '-'}</td>
         <td data-label="Leader">${c.name || '-'}</td>
         <td data-label="Relationship">${c.relationship_type === 'community_under_indscript' ? 'Under Indscript' : c.relationship_type === 'strategic_partner' ? 'Strategic' : 'Collaboration'}</td>
