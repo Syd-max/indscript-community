@@ -525,10 +525,38 @@ async function loadSponsorships() {
 }
 
 window.updateStatus = async (table, id, newStatus) => {
-  if (confirm(`Update status to ${newStatus}?`)) {
-    try {
-      await supabase.from(table).update({ status: newStatus }).eq('id', id);
-      if (table === 'members') await loadMembers();
+    if (confirm(`Update status to ${newStatus}?`)) {
+      try {
+        await supabase.from(table).update({ status: newStatus }).eq('id', id);
+        
+        // If accepting collab/sponsor, automatically insert to ecosystem (members)
+        if (newStatus === 'accepted' && (table === 'collaborations' || table === 'sponsorships')) {
+          const { data: sourceData } = await supabase.from(table).select('*').eq('id', id).single();
+          if (sourceData) {
+            const memberPayload = {
+              status: 'approved',
+              community_name: table === 'collaborations' ? sourceData.organization : sourceData.company,
+              name: table === 'collaborations' ? sourceData.name : sourceData.pic_name,
+              email: sourceData.email,
+              phone: sourceData.phone,
+              relationship_type: table === 'collaborations' ? 'collaboration_partner' : 'strategic_partner'
+            };
+            
+            if (memberPayload.community_name) {
+              const { data: existing } = await supabase.from('members')
+                .select('id')
+                .eq('community_name', memberPayload.community_name)
+                .single();
+                
+              if (!existing) {
+                await supabase.from('members').insert([memberPayload]);
+                alert("Berhasil! Data otomatis dimasukkan ke Community Ecosystem.");
+              }
+            }
+          }
+        }
+        
+        if (table === 'members') await loadMembers();
       else if (table === 'communities') await loadCommunities();
       else if (table === 'collaborations') await loadCollaborations();
       else if (table === 'sponsorships') await loadSponsorships();
@@ -832,30 +860,156 @@ window.editCommunity = async (id) => {
 
 document.addEventListener('click', async (e) => {
   if (e.target && e.target.id === 'save-community-btn') {
-    const id = document.getElementById('edit-comm-id').value;
-    const updates = {
-      community_name: document.getElementById('edit-comm-name').value,
-      category: document.getElementById('edit-comm-category').value,
-      profile: document.getElementById('edit-comm-profile').value,
-      name: document.getElementById('edit-comm-leader').value,
-      member_count: document.getElementById('edit-comm-count').value,
-      domicile: document.getElementById('edit-comm-region').value,
-      logo_url: document.getElementById('edit-comm-logo').value,
-      instagram_url: document.getElementById('edit-comm-ig').value,
-      facebook_url: document.getElementById('edit-comm-fb').value,
-      youtube_url: document.getElementById('edit-comm-yt').value,
-      linkedin_url: document.getElementById('edit-comm-li').value,
-      tiktok_url: document.getElementById('edit-comm-tt').value,
-      twitter_url: document.getElementById('edit-comm-tw').value,
-      website_url: document.getElementById('edit-comm-web').value,
-      updated_at: new Date().toISOString()
-    };
-    
-    const { error } = await window.supabase.from('members').update(updates).eq('id', id);
-    if (error) alert('Failed to update community');
-    else {
-      document.getElementById('community-modal').style.display = 'none';
-      await loadCommunities();
+      const id = document.getElementById('edit-comm-id').value;
+      const payload = {
+        community_name: document.getElementById('edit-comm-name').value,
+        category: document.getElementById('edit-comm-category').value,
+        profile: document.getElementById('edit-comm-profile').value,
+        name: document.getElementById('edit-comm-leader').value,
+        member_count: document.getElementById('edit-comm-count').value,
+        domicile: document.getElementById('edit-comm-region').value,
+        logo_url: document.getElementById('edit-comm-logo').value,
+        instagram_url: document.getElementById('edit-comm-ig').value,
+        facebook_url: document.getElementById('edit-comm-fb').value,
+        youtube_url: document.getElementById('edit-comm-yt').value,
+        linkedin_url: document.getElementById('edit-comm-li').value,
+        tiktok_url: document.getElementById('edit-comm-tt').value,
+        twitter_url: document.getElementById('edit-comm-tw').value,
+        website_url: document.getElementById('edit-comm-web').value,
+        updated_at: new Date().toISOString()
+      };
+      
+      let error;
+      if (id && id !== 'new') {
+        const res = await supabase.from('members').update(payload).eq('id', id);
+        error = res.error;
+      } else {
+        payload.status = 'approved'; 
+        payload.relationship_type = 'strategic_partner'; 
+        const res = await supabase.from('members').insert([payload]);
+        error = res.error;
+      }
+      
+      if (error) alert('Failed to save community: ' + error.message);
+      else {
+        document.getElementById('community-modal').style.display = 'none';
+        await loadCommunities();
+      }
     }
   }
 });
+
+window.openAddCommunityModal = () => {
+    // Generate an empty data object
+    const data = { id: 'new', community_name: '', category: '', profile: '', name: '', member_count: '', domicile: '', logo_url: '', instagram_url: '', facebook_url: '', youtube_url: '', linkedin_url: '', tiktok_url: '', twitter_url: '', website_url: '' };
+    
+    // We can literally just call editCommunity but with a mock id?
+    // No, editCommunity fetches from DB. We need to duplicate the HTML generation.
+    const formHtml = `
+      <input type="hidden" id="edit-comm-id" value="new">
+      <div><label>Community Name</label><input type="text" id="edit-comm-name" value="" class="form-input"></div>
+      <div><label>Category</label><input type="text" id="edit-comm-category" value="" class="form-input"></div>
+      <div><label>Profile</label><textarea id="edit-comm-profile" class="form-input"></textarea></div>
+      <div><label>Leader/Management (Name)</label><input type="text" id="edit-comm-leader" value="" class="form-input"></div>
+      <div><label>Member Count</label><input type="text" id="edit-comm-count" value="" class="form-input"></div>
+      <div><label>Region</label><input type="text" id="edit-comm-region" value="" class="form-input"></div>
+      
+      <div style="margin-top: 1rem; border: 1px solid #eee; padding: 1rem; border-radius: 8px;">
+        <label style="font-weight: bold; margin-bottom: 0.5rem; display: block;">Logo</label>
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <input type="text" id="edit-comm-logo" value="" class="form-input" placeholder="Masukkan Logo URL / Base64">
+        </div>
+        <p style="font-size: 0.75rem; color: #666; margin-bottom: 0.5rem;">Atau upload file (Otomatis Base64):</p>
+        <input type="file" id="edit-comm-logo-file" accept="image/*" class="form-input" style="padding: 0.25rem;">
+      </div>
+  
+      <div style="margin-top: 1rem; border: 1px solid #eee; padding: 1rem; border-radius: 8px;">
+        <label style="font-weight: bold; margin-bottom: 0.5rem; display: block;">Social Media Links</label>
+        
+        <input type="hidden" id="edit-comm-ig" value="">
+        <input type="hidden" id="edit-comm-fb" value="">
+        <input type="hidden" id="edit-comm-yt" value="">
+        <input type="hidden" id="edit-comm-li" value="">
+        <input type="hidden" id="edit-comm-tt" value="">
+        <input type="hidden" id="edit-comm-tw" value="">
+        <input type="hidden" id="edit-comm-web" value="">
+        
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <select id="socmed-selector" class="form-input" style="width: 120px;">
+            <option value="ig">Instagram</option>
+            <option value="fb">Facebook</option>
+            <option value="yt">YouTube</option>
+            <option value="li">LinkedIn</option>
+            <option value="tt">TikTok</option>
+            <option value="tw">Twitter</option>
+            <option value="web">Website</option>
+          </select>
+          <input type="text" id="socmed-input" class="form-input" placeholder="Masukkan URL disini...">
+          <button type="button" id="socmed-add-btn" class="btn btn--primary btn--sm">Add</button>
+        </div>
+        <div id="socmed-list" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+        </div>
+      </div>
+    `;
+    
+    document.getElementById('community-modal-form').innerHTML = formHtml;
+    document.getElementById('community-modal').style.display = 'flex';
+  
+    setTimeout(() => {
+      const fileInput = document.getElementById('edit-comm-logo-file');
+      if (fileInput) {
+        fileInput.addEventListener('change', function() {
+          const file = this.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => { document.getElementById('edit-comm-logo').value = e.target.result; };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+  
+      window.renderSocmeds = () => {
+        const list = document.getElementById('socmed-list');
+        if (!list) return;
+        const platforms = {
+          ig: { label: 'Instagram', color: '#E1306C' }, fb: { label: 'Facebook', color: '#1877F2' },
+          yt: { label: 'YouTube', color: '#FF0000' }, li: { label: 'LinkedIn', color: '#0077B5' },
+          tt: { label: 'TikTok', color: '#000000' }, tw: { label: 'Twitter', color: '#1DA1F2' },
+          web: { label: 'Website', color: 'var(--c-primary)' }
+        };
+        
+        let html = '';
+        Object.keys(platforms).forEach(key => {
+          const inputEl = document.getElementById('edit-comm-' + key);
+          if (inputEl && inputEl.value) {
+            html += `
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: #f9f9f9; border-radius: 4px; border: 1px solid #eee;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden;">
+                  <span style="background: ${platforms[key].color}; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold; width: 80px; text-align: center;">${platforms[key].label}</span>
+                  <span style="font-size: 0.8rem; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">${inputEl.value}</span>
+                </div>
+                <button type="button" class="socmed-remove-btn" onclick="document.getElementById('edit-comm-${key}').value=''; window.renderSocmeds();" style="background: none; border: none; color: #dc2626; cursor: pointer; font-weight: bold;">❌</button>
+              </div>
+            `;
+          }
+        });
+        list.innerHTML = html;
+      };
+      
+      const addBtn = document.getElementById('socmed-add-btn');
+      if (addBtn) {
+        addBtn.addEventListener('click', () => {
+          const sel = document.getElementById('socmed-selector').value;
+          const inp = document.getElementById('socmed-input').value;
+          if (inp) {
+            document.getElementById('edit-comm-' + sel).value = inp;
+            document.getElementById('socmed-input').value = '';
+            window.renderSocmeds();
+          }
+        });
+      }
+      
+      window.renderSocmeds();
+    }, 100);
+};
+
