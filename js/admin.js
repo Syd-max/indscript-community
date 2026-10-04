@@ -637,9 +637,9 @@ window.filterRegistrations = function() {
       }
       
       // Preserve HTML for status badges/selects and links, otherwise use text
-      const val = (label === 'Status' || label === 'Checked In' || label === 'Registration' || label === 'Link') 
-                  ? td.innerHTML 
-                  : td.textContent;
+      const val = (label === 'Status' || label === 'Checked In' || label === 'Registration' || label === 'Link' || label === 'Logo' || label === 'Highlight') 
+                    ? td.innerHTML 
+                    : td.textContent;
                   
       html += `
         <div class="modal-detail-row">
@@ -766,9 +766,10 @@ async function loadCommunities() {
           </select>
         </td>
         <td data-label="Actions">
-          <div style="display: flex; gap: 0.5rem;">
-            <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px;" onclick="window.editCommunity('${c.id}')">Edit</button>
-            <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px;" onclick="window.deleteRecord('communities', '${c.id}')">Delete</button>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <button class="btn btn--sm" style="background: #007bff; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+            <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.editCommunity('${c.id}')">Edit</button>
+            <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.deleteRecord('communities', '${c.id}')">Delete</button>
           </div>
         </td>
       </tr>
