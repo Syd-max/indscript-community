@@ -287,7 +287,7 @@ async function loadEvents() {
       <td data-label="Registration">${ev.registration_open ? 'Open' : 'Closed'}</td>
       <td data-label="Actions">
         <div class="admin-actions" style="flex-wrap: nowrap; gap: 4px;">
-          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--sm" style="background: #ffc107; color: black; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.editEvent('${ev.id}')">Edit</button>
           <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.deleteEvent('${ev.id}')">Delete</button>
         </div>
@@ -418,7 +418,7 @@ function renderRegistrations(data, eventId, query) {
       <td data-label="Checked In">${reg.checked_in ? 'Yes' : 'No'}</td>
       <td data-label="Actions">
         <div class="admin-actions" style="flex-wrap: nowrap; gap: 4px;">
-          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           ${!reg.checked_in
             ? `<button class="btn btn--sm" style="background: #007bff; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.checkIn('${reg.id}', '${eventId}')">Check In</button>`
             : `<span style="color:green; font-size:0.85rem; font-weight:500;">Checked In</span>`}
@@ -459,7 +459,7 @@ async function loadMembers() {
       </td>
       <td data-label="Actions">
         <div class="admin-actions" style="flex-wrap: nowrap; gap: 4px;">
-          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.deleteRecord('members', '${m.id}')">Delete</button>
         </div>
       </td>
@@ -492,7 +492,7 @@ async function loadCollaborations() {
       </td>
       <td data-label="Actions">
         <div class="admin-actions" style="flex-wrap: nowrap; gap: 4px;">
-          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.deleteRecord('collaborations', '${c.id}')">Delete</button>
         </div>
       </td>
@@ -525,7 +525,7 @@ async function loadSponsorships() {
       </td>
       <td data-label="Actions">
         <div class="admin-actions" style="flex-wrap: nowrap; gap: 4px;">
-          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+          <button class="btn btn--sm mobile-only" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
           <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.deleteRecord('sponsorships', '${s.id}')">Delete</button>
         </div>
       </td>
@@ -767,7 +767,7 @@ async function loadCommunities() {
         </td>
         <td data-label="Actions">
           <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-            <button class="btn btn--sm" style="background: #007bff; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
+            <button class="btn btn--sm mobile-only" style="background: #007bff; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="event.stopPropagation(); window.showRowDetails(this)">Detail</button>
             <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.editCommunity('${c.id}')">Edit</button>
             <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px; font-weight: 500;" onclick="window.deleteRecord('communities', '${c.id}')">Delete</button>
           </div>
