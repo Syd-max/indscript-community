@@ -896,7 +896,6 @@ document.addEventListener('click', async (e) => {
         await loadCommunities();
       }
     }
-  }
 });
 
 window.openAddCommunityModal = () => {
