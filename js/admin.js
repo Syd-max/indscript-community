@@ -258,11 +258,20 @@ function setupEventHandlers() {
       if (eventsTable) eventsTable.style.display = 'block';
       await loadEvents();
     } catch (err) {
-      console.error('Error saving event:', err);
-      alert('Error saving event: ' + err.message);
-    }
-  });
-}
+        console.error('Error saving event:', err);
+        alert('Error saving event: ' + err.message);
+      }
+    });
+
+    const commSearch = document.getElementById('community-search');
+    if (commSearch) commSearch.addEventListener('input', () => loadCommunities());
+
+    const commStatus = document.getElementById('community-filter-status');
+    if (commStatus) commStatus.addEventListener('change', () => loadCommunities());
+
+    const commCat = document.getElementById('community-filter-category');
+    if (commCat) commCat.addEventListener('change', () => loadCommunities());
+  }
 
 async function loadEvents() {
   const { data, error } = await supabase.from('events').select('*').order('created_at', { ascending: false });
@@ -701,24 +710,38 @@ window.exportToCSV = async (table) => {
 async function loadCommunities() {
   const searchTerm = document.getElementById('community-search')?.value.toLowerCase() || '';
   const statusFilter = document.getElementById('community-filter-status')?.value || '';
-  const relFilter = document.getElementById('community-filter-rel')?.value || '';
+  const catFilter = document.getElementById('community-filter-category')?.value || '';
 
-  let query = supabase.from('members').select('*').not('community_name', 'is', null).order('created_at', { ascending: false });
+  // Get ALL data first to populate the category dropdown dynamically
+  const { data, error } = await supabase.from('members').select('*').not('community_name', 'is', null).order('created_at', { ascending: false });
   
-  if (statusFilter) query = query.eq('status', statusFilter);
-  if (relFilter) query = query.eq('relationship_type', relFilter);
-
-  const { data, error } = await query;
   if (error) {
     console.error('Error loading communities:', error);
     return;
   }
   
-  const filteredData = data.filter(c => 
-    !searchTerm || 
-    (c.community_name && c.community_name.toLowerCase().includes(searchTerm)) ||
-    (c.category && c.category.toLowerCase().includes(searchTerm))
-  );
+  // Populate category filter dropdown dynamically if it's currently empty (or has only "All Categories")
+  const catSelect = document.getElementById('community-filter-category');
+  if (catSelect && catSelect.options.length <= 1) {
+    const uniqueCategories = [...new Set(data.map(c => c.category).filter(Boolean))].sort();
+    uniqueCategories.forEach(cat => {
+      const option = document.createElement('option');
+      option.value = cat;
+      option.textContent = cat;
+      catSelect.appendChild(option);
+    });
+  }
+
+  const filteredData = data.filter(c => {
+    // 1. Filter by Search
+    const matchSearch = !searchTerm || (c.community_name && c.community_name.toLowerCase().includes(searchTerm)) || (c.category && c.category.toLowerCase().includes(searchTerm));
+    // 2. Filter by Status
+    const matchStatus = !statusFilter || c.status === statusFilter;
+    // 3. Filter by Category
+    const matchCategory = !catFilter || c.category === catFilter;
+    
+    return matchSearch && matchStatus && matchCategory;
+  });
 
   const tbody = document.getElementById('communities-tbody');
   if(!tbody) return;
