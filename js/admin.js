@@ -975,7 +975,7 @@ window.openAddCommunityModal = () => {
         <input type="hidden" id="edit-comm-web" value="">
         
         <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
-          <select id="socmed-selector" class="form-input" style="width: 120px;">
+          <select id="socmed-selector" class="form-input" style="width: 110px; padding: 0.5rem;">
             <option value="ig">Instagram</option>
             <option value="fb">Facebook</option>
             <option value="yt">YouTube</option>
@@ -984,7 +984,7 @@ window.openAddCommunityModal = () => {
             <option value="tw">Twitter</option>
             <option value="web">Website</option>
           </select>
-          <input type="text" id="socmed-input" class="form-input" placeholder="Masukkan URL disini...">
+          <input type="text" id="socmed-input" class="form-input" placeholder="Link" style="flex: 1; min-width: 50px;">
           <button type="button" id="socmed-add-btn" class="btn btn--primary btn--sm">Add</button>
         </div>
         <div id="socmed-list" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
