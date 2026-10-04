@@ -306,14 +306,16 @@
   font-size: 0.9rem; padding: 4px; border: 1px solid #ccc; border-radius: 4px;
 }
 
-.mobile-only {
-  display: none;
-}
+.mobile-only,
+  .btn.mobile-only {
+    display: none !important;
+  }
 
 @media (max-width: 768px) {
-  .mobile-only {
-    display: inline-block;
-  }
+  .mobile-only,
+    .btn.mobile-only {
+      display: inline-flex !important;
+    }
 
 
   .admin-topbar__title,
