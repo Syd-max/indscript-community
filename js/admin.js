@@ -531,7 +531,7 @@ window.updateStatus = async (table, id, newStatus) => {
         
         // If accepting collab/sponsor, automatically insert to ecosystem (members)
         if (newStatus === 'accepted' && (table === 'collaborations' || table === 'sponsorships')) {
-          const { data: sourceData } = await supabase.from(table).select('*').eq('id', id).single();
+          const { data: sourceData } = await supabase.from(table).select('*').eq('id', id).maybeSingle();
           if (sourceData) {
             const memberPayload = {
               status: 'approved',
@@ -546,7 +546,7 @@ window.updateStatus = async (table, id, newStatus) => {
               const { data: existing } = await supabase.from('members')
                 .select('id')
                 .eq('community_name', memberPayload.community_name)
-                .single();
+                .maybeSingle();
                 
               if (!existing) {
                 await supabase.from('members').insert([memberPayload]);
@@ -748,7 +748,7 @@ window.toggleHighlight = async (id, isHighlighted) => {
 };
 
 window.editCommunity = async (id) => {
-  const { data, error } = await supabase.from('members').select('*').eq('id', id).single();
+  const { data, error } = await supabase.from('members').select('*').eq('id', id).maybeSingle();
   if (error || !data) return alert('Error fetching data');
   
   const formHtml = `
