@@ -919,12 +919,14 @@ document.addEventListener('click', async (e) => {
         error = res.error;
       } else {
         payload.status = 'approved'; 
-        payload.relationship_type = 'strategic_partner';
-        if (!payload.domicile) payload.domicile = '-';
-        payload.occupation = '-';
-        payload.interest = '-';
-        payload.reason = '-';
-        const res = await supabase.from('members').insert([payload]);
+          payload.relationship_type = 'strategic_partner';
+          if (!payload.domicile) payload.domicile = '-';
+          payload.email = '-';
+          payload.phone = '-';
+          payload.occupation = '-';
+          payload.interest = '-';
+          payload.reason = '-';
+          const res = await supabase.from('members').insert([payload]);
         error = res.error;
       }
       
