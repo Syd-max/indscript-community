@@ -168,11 +168,11 @@ async function loadCommunityEcosystem() {
         
         const logosHtml = data.map(c => {
           const inner = c.logo_url 
-            ? `<img src="${c.logo_url}" alt="${c.community_name}" style="width: 100%; height: 100%; object-fit: contain; padding: 0.8rem;">`
+            ? `<img src="${c.logo_url}" alt="${c.community_name}" style="width: 100%; height: 100%; object-fit: contain; padding: 1.2rem;">`
             : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: var(--c-primary); font-family: var(--ff-heading);">${c.community_name.charAt(0)}</div>`;
             
           return `
-            <div class="swiper-slide glass-slide" onclick="openEcoModal('${c.id}')" title="${c.community_name}" style="width: 200px; height: 110px; background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 1); box-shadow: 0 15px 35px rgba(140, 28, 32, 0.06), inset 0 0 0 1px rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; margin: 0 10px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <div class="swiper-slide glass-slide" onclick="openEcoModal('${c.id}')" title="${c.community_name}" style="width: 140px; height: 140px; background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 1); box-shadow: 0 15px 35px rgba(140, 28, 32, 0.06), inset 0 0 0 1px rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; margin: 0 12px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
               ${inner}
             </div>
           `;
@@ -194,16 +194,18 @@ async function loadCommunityEcosystem() {
                 // Initialize Swiper
         if (typeof Swiper !== 'undefined') {
           new Swiper('.ecosystem-swiper', {
-            grabCursor: true,
-            slidesPerView: 'auto',
-            loop: true,
-            speed: 2500,
-            allowTouchMove: true,
-            autoplay: {
-              delay: 0,
-              disableOnInteraction: false,
-            }
-          });
+              grabCursor: true,
+              slidesPerView: 'auto',
+              loop: true,
+              speed: 2500,
+              freeMode: true,
+              allowTouchMove: true,
+              autoplay: {
+                delay: 0,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: false
+              }
+            });
         } else {
           marquee.style.display = 'flex';
           marquee.style.overflowX = 'auto';
@@ -270,6 +272,8 @@ window.openEcoModal = (id) => {
   document.getElementById('eco-modal-body').innerHTML = html;
   document.getElementById('eco-modal').style.display = 'flex';
 };
+
+
 
 
 
