@@ -746,33 +746,33 @@ async function loadCommunities() {
   const tbody = document.getElementById('communities-tbody');
   if(!tbody) return;
   tbody.innerHTML = filteredData.map(c => `
-    <tr>
-      <td>${c.logo_url ? `<img src="${c.logo_url}" style="height:32px; border-radius:4px;">` : '-'}</td>
-      <td>
-        <div style="font-weight: 600;">${c.community_name || '-'}</div>
-        <div style="font-size: 0.75rem; color: #666;">${c.domicile || '-'}</div>
-      </td>
-      <td>${c.category || '-'}</td>
-      <td>${c.name || '-'}</td>
-      <td>${c.relationship_type === 'community_under_indscript' ? 'Under Indscript' : c.relationship_type === 'strategic_partner' ? 'Strategic' : 'Collaboration'}</td>
-      <td>
-        <input type="checkbox" onchange="window.toggleHighlight('${c.id}', this.checked)" ${c.is_highlighted ? 'checked' : ''}>
-      </td>
-      <td>
-        <select onchange="window.updateStatus('members', '${c.id}', this.value)" style="padding:4px;">
-          <option value="pending" ${c.status === 'pending' ? 'selected' : ''}>Pending</option>
-          <option value="approved" ${c.status === 'approved' ? 'selected' : ''}>Approved</option>
-          <option value="rejected" ${c.status === 'rejected' ? 'selected' : ''}>Rejected</option>
-        </select>
-      </td>
-      <td>
-        <div style="display: flex; gap: 0.5rem;">
-          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px;" onclick="window.editCommunity('${c.id}')">Edit</button>
-          <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px;" onclick="window.deleteRecord('communities', '${c.id}')">Delete</button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+      <tr>
+        <td data-label="Logo">${c.logo_url ? `<img src="${c.logo_url}" style="height:32px; border-radius:4px;">` : '-'}</td>
+        <td data-label="Community">
+          <div style="font-weight: 600;">${c.community_name || '-'}</div>
+          <div style="font-size: 0.75rem; color: #666;">${c.domicile || '-'}</div>
+        </td>
+        <td data-label="Category">${c.category || '-'}</td>
+        <td data-label="Leader">${c.name || '-'}</td>
+        <td data-label="Relationship">${c.relationship_type === 'community_under_indscript' ? 'Under Indscript' : c.relationship_type === 'strategic_partner' ? 'Strategic' : 'Collaboration'}</td>
+        <td data-label="Highlight">
+          <input type="checkbox" onchange="window.toggleHighlight('${c.id}', this.checked)" ${c.is_highlighted ? 'checked' : ''}>
+        </td>
+        <td data-label="Status">
+          <select onchange="window.updateStatus('members', '${c.id}', this.value)" style="padding:4px;">
+            <option value="pending" ${c.status === 'pending' ? 'selected' : ''}>Pending</option>
+            <option value="approved" ${c.status === 'approved' ? 'selected' : ''}>Approved</option>
+            <option value="rejected" ${c.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+          </select>
+        </td>
+        <td data-label="Actions">
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px;" onclick="window.editCommunity('${c.id}')">Edit</button>
+            <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px;" onclick="window.deleteRecord('communities', '${c.id}')">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
 }
 
 window.toggleHighlight = async (id, isHighlighted) => {

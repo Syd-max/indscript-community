@@ -430,8 +430,9 @@
   /* Only show the most essential columns (Name and Actions) on mobile */
   .admin-table td[data-label="Title"],
   .admin-table td[data-label="Name"],
-  .admin-table td[data-label="PIC Name"],
-  .admin-table td[data-label="Actions"] {
+    .admin-table td[data-label="PIC Name"],
+    .admin-table td[data-label="Community"],
+    .admin-table td[data-label="Actions"] {
     display: flex;
   }
 
