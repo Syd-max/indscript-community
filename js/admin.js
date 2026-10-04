@@ -597,25 +597,25 @@ window.updateStatus = async (table, id, newStatus) => {
 window.deleteRecord = async (table, id) => {
     if (confirm('Are you sure you want to delete this record? This action cannot be undone.')) {
       try {
-        const { data, error } = await supabase.from(table).delete().eq('id', id);
+        const dbTable = table === 'communities' ? 'members' : table;
+        const { data, error } = await supabase.from(dbTable).delete().eq('id', id);
         if (error) {
           console.error(error);
           alert("Failed to delete from database: " + error.message);
           return;
         }
         if (table === 'members') await loadMembers();
-      else if (table === 'communities') await loadCommunities();
+        else if (table === 'communities') await loadCommunities();
         else if (table === 'collaborations') await loadCollaborations();
         else if (table === 'sponsorships') await loadSponsorships();
         
-                if (typeof loadDashboardStats === 'function') await loadDashboardStats();
+        if (typeof loadDashboardStats === 'function') await loadDashboardStats();
       } catch (err) {
         alert("Error deleting record: " + err.message);
       }
     }
   };
-
-  window.filterRegistrations = function() {
+window.filterRegistrations = function() {
     const query = document.getElementById('reg-search')?.value || '';
     renderRegistrations(_currentRegsData, _currentRegsEventId, query);
   };
@@ -767,8 +767,8 @@ async function loadCommunities() {
       </td>
       <td>
         <div style="display: flex; gap: 0.5rem;">
-          <button class="btn btn--sm" style="background: var(--c-primary); color: white; border: none; padding: 4px 8px;" onclick="window.editCommunity('${c.id}')">Edit</button>
-          <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px;" onclick="window.deleteRecord('members', '${c.id}')">Delete</button>
+          <button class="btn btn--sm" style="background: #2ea043; color: white; border: none; padding: 4px 8px;" onclick="window.editCommunity('${c.id}')">Edit</button>
+          <button class="btn btn--sm" style="background: #da3633; color: white; border: none; padding: 4px 8px;" onclick="window.deleteRecord('communities', '${c.id}')">Delete</button>
         </div>
       </td>
     </tr>
