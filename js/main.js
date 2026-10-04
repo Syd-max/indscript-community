@@ -191,30 +191,26 @@ async function loadCommunityEcosystem() {
            const style = document.createElement('style');
            style.id = 'swiper-linear-style';
            style.innerHTML = `
-             .ecosystem-swiper .swiper-wrapper { transition-timing-function: linear !important; }
-             .glass-slide:hover { transform: translateY(-8px) scale(1.02) !important; background: rgba(255,255,255,0.95) !important; box-shadow: 0 25px 45px rgba(140,28,32,0.12), 0 0 20px rgba(255,209,0,0.2) !important; border-color: rgba(255,209,0,0.5) !important; }
-           `;
+               @keyframes scrollMarquee {
+                 0% { transform: translateX(0); }
+                 100% { transform: translateX(-50%); }
+               }
+               .ecosystem-swiper .swiper-wrapper { 
+                 width: max-content !important;
+                 display: flex !important;
+                 animation: scrollMarquee 40s linear infinite !important;
+                 flex-wrap: nowrap !important;
+               }
+               .ecosystem-swiper:hover .swiper-wrapper {
+                 /* no pause */
+               }
+               .glass-slide { flex-shrink: 0; }
+               .glass-slide:hover { transform: translateY(-8px) scale(1.02) !important; background: rgba(255,255,255,0.95) !important; box-shadow: 0 25px 45px rgba(140,28,32,0.12), 0 0 20px rgba(255,209,0,0.2) !important; border-color: rgba(255,209,0,0.5) !important; z-index: 10; position: relative; }
+             `;
            document.head.appendChild(style);
         }
         
-                // Initialize Swiper
-        if (typeof Swiper !== 'undefined') {
-          new Swiper('.ecosystem-swiper', {
-            slidesPerView: 'auto',
-            loop: true,
-            speed: 2500,
-            allowTouchMove: false,
-            autoplay: {
-              delay: 0,
-              disableOnInteraction: false
-            }
-          });
-        } else {
-          marquee.style.display = 'flex';
-          marquee.style.overflowX = 'auto';
-          marquee.style.gap = '2rem';
-          marquee.style.padding = '1rem 2rem';
-        }
+                
         
       } else {
         marquee.parentElement.style.display = 'none';
