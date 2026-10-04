@@ -540,7 +540,6 @@ window.updateStatus = async (table, id, newStatus) => {
               name: table === 'collaborations' ? sourceData.name : sourceData.pic_name,
               email: sourceData.email,
               phone: sourceData.phone,
-                password: 'defaultPassword123!',
               relationship_type: table === 'collaborations' ? 'collaboration_partner' : 'strategic_partner'
             };
             
@@ -893,8 +892,7 @@ document.addEventListener('click', async (e) => {
         error = res.error;
       } else {
         payload.status = 'approved'; 
-        payload.relationship_type = 'strategic_partner';
-        payload.password = 'default123!'; 
+        payload.relationship_type = 'strategic_partner'; 
         const res = await supabase.from('members').insert([payload]);
         error = res.error;
       }
