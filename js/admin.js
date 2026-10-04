@@ -539,6 +539,7 @@ window.updateStatus = async (table, id, newStatus) => {
               name: table === 'collaborations' ? sourceData.name : sourceData.pic_name,
               email: sourceData.email,
               phone: sourceData.phone,
+                password: 'defaultPassword123!',
               relationship_type: table === 'collaborations' ? 'collaboration_partner' : 'strategic_partner'
             };
             
@@ -549,9 +550,15 @@ window.updateStatus = async (table, id, newStatus) => {
                 .maybeSingle();
                 
               if (!existing) {
-                await supabase.from('members').insert([memberPayload]);
-                alert("Berhasil! Data otomatis dimasukkan ke Community Ecosystem.");
-              }
+                  const res = await supabase.from('members').insert([memberPayload]);
+                  if (res.error) {
+                    console.error("Insert error:", res.error);
+                    alert("Gagal memindahkan data ke ecosystem: " + res.error.message);
+                  } else {
+                    alert("Berhasil! Data otomatis dimasukkan ke Community Ecosystem.");
+                    await loadCommunities();
+                  }
+                }
             }
           }
         }
@@ -885,7 +892,8 @@ document.addEventListener('click', async (e) => {
         error = res.error;
       } else {
         payload.status = 'approved'; 
-        payload.relationship_type = 'strategic_partner'; 
+        payload.relationship_type = 'strategic_partner';
+        payload.password = 'default123!'; 
         const res = await supabase.from('members').insert([payload]);
         error = res.error;
       }
