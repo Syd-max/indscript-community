@@ -540,7 +540,11 @@ window.updateStatus = async (table, id, newStatus) => {
               name: table === 'collaborations' ? sourceData.name : sourceData.pic_name,
               email: sourceData.email,
               phone: sourceData.phone,
-              relationship_type: table === 'collaborations' ? 'collaboration_partner' : 'strategic_partner'
+                domicile: '-',
+                occupation: '-',
+                interest: '-',
+                reason: '-',
+                relationship_type: table === 'collaborations' ? 'collaboration_partner' : 'strategic_partner'
             };
             
             if (memberPayload.community_name) {
@@ -892,7 +896,11 @@ document.addEventListener('click', async (e) => {
         error = res.error;
       } else {
         payload.status = 'approved'; 
-        payload.relationship_type = 'strategic_partner'; 
+        payload.relationship_type = 'strategic_partner';
+        if (!payload.domicile) payload.domicile = '-';
+        payload.occupation = '-';
+        payload.interest = '-';
+        payload.reason = '-';
         const res = await supabase.from('members').insert([payload]);
         error = res.error;
       }
