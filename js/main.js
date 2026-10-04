@@ -194,18 +194,15 @@ async function loadCommunityEcosystem() {
                 // Initialize Swiper
         if (typeof Swiper !== 'undefined') {
           new Swiper('.ecosystem-swiper', {
-              grabCursor: true,
-              slidesPerView: 'auto',
-              loop: true,
-              speed: 2500,
-              freeMode: true,
-              allowTouchMove: true,
-              autoplay: {
-                delay: 0,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: false
-              }
-            });
+            slidesPerView: 'auto',
+            loop: true,
+            speed: 3500,
+            allowTouchMove: false,
+            autoplay: {
+              delay: 0,
+              disableOnInteraction: false
+            }
+          });
         } else {
           marquee.style.display = 'flex';
           marquee.style.overflowX = 'auto';
