@@ -232,41 +232,46 @@ window.openEcoModal = (id) => {
     : `<div style="width: 80px; height: 80px; background: var(--c-gray-100); color: var(--c-gray-400); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 1rem; font-size: 2rem;">${c.community_name.charAt(0)}</div>`;
 
   const html = `
-    <div style="text-align: center; margin-bottom: 2rem;">
-      ${logoHtml}
-      <div style="font-size: 0.875rem; color: var(--c-primary); font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem;">${c.category || relLabel}</div>
-      <h3 style="font-family: var(--ff-heading); font-size: 1.75rem; line-height: 1.2;">${c.community_name}</h3>
-    </div>
-    
-    <div style="background: var(--c-gray-50); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
-      <p style="margin: 0; line-height: 1.6; color: var(--c-gray-700);">${c.profile || 'Tidak ada deskripsi profil.'}</p>
-    </div>
-    
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
-      <div>
-        <div style="font-size: 0.75rem; color: var(--c-gray-500); margin-bottom: 0.25rem;">Pemimpin / Pengelola</div>
-        <div style="font-weight: 600;">${c.name && c.name !== '-' ? c.name : 'Tidak tersedia'}</div>
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; text-align: left;">
+        ${c.logo_url 
+          ? `<img src="${c.logo_url}" alt="${c.community_name}" style="width: 70px; height: 70px; object-fit: contain; border-radius: 8px;">`
+          : `<div style="width: 70px; height: 70px; background: var(--c-gray-100); color: var(--c-gray-400); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.75rem;">${c.community_name.charAt(0)}</div>`
+        }
+        <div>
+          <div style="font-size: 0.75rem; color: var(--c-primary); font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">${c.category || relLabel}</div>
+          <h3 style="font-family: var(--ff-heading); font-size: 1.35rem; line-height: 1.2; margin: 0;">${c.community_name}</h3>
+        </div>
       </div>
-      <div>
-        <div style="font-size: 0.75rem; color: var(--c-gray-500); margin-bottom: 0.25rem;">Jumlah Anggota</div>
-        <div style="font-weight: 600;">${c.member_count || 'Tidak tersedia'}</div>
+      
+      <div style="background: var(--c-gray-50); padding: 0.8rem 1rem; border-radius: 8px; margin-bottom: 1rem; max-height: 120px; overflow-y: auto;">
+        <p style="margin: 0; line-height: 1.5; color: var(--c-gray-700); font-size: 0.9rem;">${c.profile || 'Tidak ada deskripsi profil.'}</p>
       </div>
-      <div>
-        <div style="font-size: 0.75rem; color: var(--c-gray-500); margin-bottom: 0.25rem;">Wilayah / Region</div>
-        <div style="font-weight: 600;">${c.domicile || 'Tidak tersedia'}</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; background: white; border: 1px solid var(--c-gray-100); border-radius: 8px; padding: 0.75rem;">
+        <div>
+          <div style="font-size: 0.7rem; color: var(--c-gray-500); margin-bottom: 0.15rem;">Pemimpin / Pengelola</div>
+          <div style="font-weight: 600; font-size: 0.85rem;">${c.name && c.name !== '-' ? c.name : 'Tidak tersedia'}</div>
+        </div>
+        <div>
+          <div style="font-size: 0.7rem; color: var(--c-gray-500); margin-bottom: 0.15rem;">Jumlah Anggota</div>
+          <div style="font-weight: 600; font-size: 0.85rem;">${c.member_count || 'Tidak tersedia'}</div>
+        </div>
+        <div style="grid-column: span 2;">
+          <div style="font-size: 0.7rem; color: var(--c-gray-500); margin-bottom: 0.15rem;">Wilayah / Region</div>
+          <div style="font-weight: 600; font-size: 0.85rem;">${c.domicile || 'Tidak tersedia'}</div>
+        </div>
       </div>
-    </div>
-    
-    <div style="border-top: 1px solid var(--c-gray-200); padding-top: 1.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-      ${c.website_url ? `<a href="${c.website_url}" target="_blank" style="padding: 0.5rem 1rem; background: var(--c-primary); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Website</a>` : ''}
-      ${c.instagram_url ? `<a href="${c.instagram_url}" target="_blank" style="padding: 0.5rem 1rem; background: #E1306C; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> Instagram</a>` : ''}
-      ${c.facebook_url ? `<a href="${c.facebook_url}" target="_blank" style="padding: 0.5rem 1rem; background: #1877F2; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg> Facebook</a>` : ''}
-      ${c.linkedin_url ? `<a href="${c.linkedin_url}" target="_blank" style="padding: 0.5rem 1rem; background: #0077B5; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg> LinkedIn</a>` : ''}
-      ${c.youtube_url ? `<a href="${c.youtube_url}" target="_blank" style="padding: 0.5rem 1rem; background: #FF0000; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg> YouTube</a>` : ''}
-    </div>
-    
-
-  `;
+      
+      <div style="border-top: 1px dashed var(--c-gray-200); padding-top: 1rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+        ${c.website_url ? `<a href="${c.website_url}" target="_blank" style="padding: 0.4rem 0.8rem; background: var(--c-primary); color: white; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Website</a>` : ''}
+        ${c.instagram_url ? `<a href="${c.instagram_url}" target="_blank" style="padding: 0.4rem 0.8rem; background: #E1306C; color: white; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> Instagram</a>` : ''}
+        ${c.facebook_url ? `<a href="${c.facebook_url}" target="_blank" style="padding: 0.4rem 0.8rem; background: #1877F2; color: white; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg> Facebook</a>` : ''}
+        ${c.linkedin_url ? `<a href="${c.linkedin_url}" target="_blank" style="padding: 0.4rem 0.8rem; background: #0077B5; color: white; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg> LinkedIn</a>` : ''}
+        ${c.tiktok_url ? `<a href="${c.tiktok_url}" target="_blank" style="padding: 0.4rem 0.8rem; background: #000000; color: white; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5v3a3 3 0 0 1-3-3"></path></svg> TikTok</a>` : ''}
+        ${c.twitter_url ? `<a href="${c.twitter_url}" target="_blank" style="padding: 0.4rem 0.8rem; background: #1DA1F2; color: white; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg> Twitter</a>` : ''}
+        ${c.youtube_url ? `<a href="${c.youtube_url}" target="_blank" style="padding: 0.4rem 0.8rem; background: #FF0000; color: white; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg> YouTube</a>` : ''}
+      </div>
+    `;
   
   document.getElementById('eco-modal-body').innerHTML = html;
   document.getElementById('eco-modal').style.display = 'flex';
