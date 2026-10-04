@@ -527,7 +527,8 @@ async function loadSponsorships() {
 window.updateStatus = async (table, id, newStatus) => {
     if (confirm(`Update status to ${newStatus}?`)) {
       try {
-        await supabase.from(table).update({ status: newStatus }).eq('id', id);
+        const { error: updateError } = await supabase.from(table).update({ status: newStatus }).eq('id', id);
+          if (updateError) throw new Error('Update failed: ' + updateError.message);
         
         // If accepting collab/sponsor, automatically insert to ecosystem (members)
         if (newStatus === 'accepted' && (table === 'collaborations' || table === 'sponsorships')) {
