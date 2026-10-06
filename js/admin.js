@@ -35,6 +35,43 @@ window.downloadProposal = async function(url) {
   }
 };
 
+
+// ---- Community logo upload: max 2MB, auto-convert to WebP ----
+window.handleLogoFile = async function(input) {
+  const MAX_BYTES = 2 * 1024 * 1024;
+  const msg = document.getElementById('edit-comm-logo-msg');
+  const hidden = document.getElementById('edit-comm-logo');
+  const wrap = document.getElementById('edit-comm-logo-preview-wrap');
+  const prev = document.getElementById('edit-comm-logo-preview');
+  const setMsg = (text, color) => { if (msg) { msg.textContent = text; msg.style.color = color; } };
+  setMsg('', '');
+
+  const file = input.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) {
+    input.value = '';
+    setMsg('File harus berupa gambar.', '#dc2626');
+    return;
+  }
+  if (file.size > MAX_BYTES) {
+    input.value = '';
+    setMsg('File terlalu besar! Ukuran maksimal gambar adalah 2MB.', '#dc2626');
+    alert('File terlalu besar! Ukuran maksimal gambar adalah 2MB.');
+    return;
+  }
+  try {
+    setMsg('Memproses gambar...', '#666');
+    const dataUrl = await convertImageToWebpDataUrl(file);
+    hidden.value = dataUrl;
+    if (prev) prev.src = dataUrl;
+    if (wrap) wrap.style.display = '';
+    setMsg('Gambar siap & sudah dikonversi ke WebP.', '#16a34a');
+  } catch (err) {
+    input.value = '';
+    setMsg('Gagal memproses gambar: ' + err.message, '#dc2626');
+  }
+};
+
 function formatWIB(dateString) {
   if (!dateString) return '-';
   const date = new Date(dateString);
@@ -838,13 +875,15 @@ window.editCommunity = async (id) => {
     <div><label>Region</label><input type="text" id="edit-comm-region" value="${data.domicile || ''}" class="form-input"></div>
     
     <div style="margin-top: 1rem; border: 1px solid #eee; padding: 1rem; border-radius: 8px;">
-      <label style="font-weight: bold; margin-bottom: 0.5rem; display: block;">Logo</label>
-      <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
-        <input type="text" id="edit-comm-logo" value="${data.logo_url || ''}" class="form-input" placeholder="Masukkan Logo URL / Base64">
+        <label style="font-weight: bold; margin-bottom: 0.5rem; display: block;">Logo</label>
+        <input type="hidden" id="edit-comm-logo" value="${data.logo_url || ''}">
+        <div id="edit-comm-logo-preview-wrap" style="margin-bottom: 0.5rem; ${data.logo_url ? '' : 'display:none;'}">
+          <img id="edit-comm-logo-preview" src="${data.logo_url || ''}" alt="Preview logo" style="height: 64px; max-width: 100%; object-fit: contain; border: 1px solid #eee; border-radius: 6px; padding: 4px; background: #fff;">
+        </div>
+        <input type="file" id="edit-comm-logo-file" accept="image/*" class="form-input" style="padding: 0.25rem;">
+        <p style="font-size: 0.75rem; color: #b45309; margin: 0.5rem 0 0;">&#9888; Maks. ukuran gambar 2MB. Semua format (PNG, JPG, dll) otomatis dikonversi ke WebP.</p>
+        <p id="edit-comm-logo-msg" style="font-size: 0.8rem; margin: 0.35rem 0 0;"></p>
       </div>
-      <p style="font-size: 0.75rem; color: #666; margin-bottom: 0.5rem;">Atau upload file (Otomatis Base64):</p>
-      <input type="file" id="edit-comm-logo-file" accept="image/*" class="form-input" style="padding: 0.25rem;">
-    </div>
 
     <div style="margin-top: 1rem; border: 1px solid #eee; padding: 1rem; border-radius: 8px;">
       <label style="font-weight: bold; margin-bottom: 0.5rem; display: block;">Social Media Links</label>
@@ -880,14 +919,7 @@ window.editCommunity = async (id) => {
   setTimeout(() => {
     const fileInput = document.getElementById('edit-comm-logo-file');
     if (fileInput) {
-      fileInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-          convertImageToWebpDataUrl(file)
-            .then((dataUrl) => { document.getElementById('edit-comm-logo').value = dataUrl; })
-            .catch((err) => alert('Gagal memproses gambar: ' + err.message));
-        }
-      });
+      fileInput.addEventListener('change', function() { window.handleLogoFile(this); });
     }
 
     window.renderSocmeds = () => {
@@ -998,11 +1030,13 @@ window.openAddCommunityModal = () => {
       
       <div style="margin-top: 1rem; border: 1px solid #eee; padding: 1rem; border-radius: 8px;">
         <label style="font-weight: bold; margin-bottom: 0.5rem; display: block;">Logo</label>
-        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
-          <input type="text" id="edit-comm-logo" value="" class="form-input" placeholder="Masukkan Logo URL / Base64">
+        <input type="hidden" id="edit-comm-logo" value="">
+        <div id="edit-comm-logo-preview-wrap" style="margin-bottom: 0.5rem; display:none;">
+          <img id="edit-comm-logo-preview" src="" alt="Preview logo" style="height: 64px; max-width: 100%; object-fit: contain; border: 1px solid #eee; border-radius: 6px; padding: 4px; background: #fff;">
         </div>
-        <p style="font-size: 0.75rem; color: #666; margin-bottom: 0.5rem;">Atau upload file (Otomatis Base64):</p>
         <input type="file" id="edit-comm-logo-file" accept="image/*" class="form-input" style="padding: 0.25rem;">
+        <p style="font-size: 0.75rem; color: #b45309; margin: 0.5rem 0 0;">&#9888; Maks. ukuran gambar 2MB. Semua format (PNG, JPG, dll) otomatis dikonversi ke WebP.</p>
+        <p id="edit-comm-logo-msg" style="font-size: 0.8rem; margin: 0.35rem 0 0;"></p>
       </div>
   
       <div style="margin-top: 1rem; border: 1px solid #eee; padding: 1rem; border-radius: 8px;">
@@ -1040,14 +1074,7 @@ window.openAddCommunityModal = () => {
     setTimeout(() => {
       const fileInput = document.getElementById('edit-comm-logo-file');
       if (fileInput) {
-        fileInput.addEventListener('change', function() {
-          const file = this.files[0];
-          if (file) {
-            convertImageToWebpDataUrl(file)
-            .then((dataUrl) => { document.getElementById('edit-comm-logo').value = dataUrl; })
-            .catch((err) => alert('Gagal memproses gambar: ' + err.message));
-          }
-        });
+        fileInput.addEventListener('change', function() { window.handleLogoFile(this); });
       }
   
       window.renderSocmeds = () => {
