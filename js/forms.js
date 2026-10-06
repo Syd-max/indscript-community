@@ -108,6 +108,89 @@ function showSuccess(form, successElId) {
   if (successEl) successEl.style.display = 'block';
 }
 
+
+const MAX_PDF_BYTES = 2 * 1024 * 1024;
+
+function initProposalToggle(form) {
+  const radios = form.querySelectorAll('input[name="proposal_mode"]');
+  if (!radios.length) return;
+  const urlInput = form.querySelector('input[name="proposal_url"]');
+  const pdfWrap = form.querySelector('.proposal-pdf-wrap');
+  const pdfInput = form.querySelector('.proposal-pdf');
+
+  const apply = () => {
+    const mode = form.querySelector('input[name="proposal_mode"]:checked').value;
+    urlInput.style.display = mode === 'link' ? '' : 'none';
+    pdfWrap.style.display = mode === 'pdf' ? '' : 'none';
+    if (mode === 'link') { pdfInput.value = ''; clearPdfError(pdfWrap); }
+    else { urlInput.value = ''; clearFieldError(urlInput); }
+  };
+  radios.forEach(r => r.addEventListener('change', apply));
+
+  pdfInput.addEventListener('change', () => {
+    clearPdfError(pdfWrap);
+    const file = pdfInput.files[0];
+    if (!file) return;
+    const err = validatePdf(file);
+    if (err) {
+      pdfInput.value = '';
+      showPdfError(pdfWrap, err);
+    }
+  });
+  apply();
+}
+
+function validatePdf(file) {
+  if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+    return 'File harus berformat PDF.';
+  }
+  if (file.size > MAX_PDF_BYTES) {
+    return 'File terlalu besar! Ukuran maksimal PDF adalah 2MB.';
+  }
+  return '';
+}
+
+function showPdfError(wrap, message) {
+  clearPdfError(wrap);
+  const el = document.createElement('div');
+  el.className = 'form-error';
+  el.textContent = message;
+  wrap.appendChild(el);
+}
+
+function clearPdfError(wrap) {
+  const existing = wrap.querySelector('.form-error');
+  if (existing) existing.remove();
+}
+
+async function resolveProposalUrl(form, data) {
+  const mode = form.querySelector('input[name="proposal_mode"]:checked');
+  if (!mode || mode.value !== 'pdf') return;
+
+  const pdfWrap = form.querySelector('.proposal-pdf-wrap');
+  const file = form.querySelector('.proposal-pdf').files[0];
+  if (!file) {
+    const e = new Error('no-file');
+    e.userMessage = 'Pilih file PDF terlebih dahulu.';
+    throw e;
+  }
+  const err = validatePdf(file);
+  if (err) {
+    showPdfError(pdfWrap, err);
+    const e = new Error('invalid-pdf');
+    e.userMessage = err;
+    throw e;
+  }
+
+  const path = 'documents/proposals/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.pdf';
+  const { error } = await supabase.storage
+    .from('community-assets')
+    .upload(path, file, { contentType: 'application/pdf', upsert: false });
+  if (error) throw error;
+
+  data.proposal_url = supabase.storage.from('community-assets').getPublicUrl(path).data.publicUrl;
+}
+
 async function handleFormSubmit(form, tableName, successElId) {
   if (!validateForm(form)) return;
 
@@ -115,6 +198,7 @@ async function handleFormSubmit(form, tableName, successElId) {
 
   try {
     const data = getFormData(form);
+    await resolveProposalUrl(form, data);
     const { error } = await supabase.from(tableName).insert(data);
 
     if (error) throw error;
@@ -122,13 +206,14 @@ async function handleFormSubmit(form, tableName, successElId) {
     showSuccess(form, successElId);
     showToast('Data berhasil dikirim!', 'success');
   } catch (err) {
-    showToast('Gagal mengirim data. Silakan coba lagi.', 'error');
+    showToast((err && err.userMessage) || 'Gagal mengirim data. Silakan coba lagi.', 'error');
   } finally {
     setFormLoading(form, false);
   }
 }
 
 export function initForms() {
+    document.querySelectorAll('form').forEach(initProposalToggle);
   document.querySelectorAll('.form-input').forEach(input => {
     input.addEventListener('blur', () => {
       const error = validateField(input);

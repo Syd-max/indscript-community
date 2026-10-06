@@ -1,5 +1,6 @@
 import { supabase } from './supabase.js';
 import { requireAdmin, signOut } from './auth.js';
+import { convertImageToWebp, convertImageToWebpDataUrl } from './utils.js';
 
 function formatWIB(dateString) {
   if (!dateString) return '-';
@@ -181,12 +182,20 @@ window.handlePosterUpload = async function(input) {
 
   statusEl.innerHTML = '<span style="color:#888;">? Mengupload...</span>';
 
-  const ext = file.name.split('.').pop();
+  let uploadBlob;
+  try {
+    uploadBlob = await convertImageToWebp(file, { maxDim: 1600, quality: 0.82 });
+  } catch (convErr) {
+    statusEl.innerHTML = '<span style="color:red;">Gagal konversi: ' + convErr.message + '</span>';
+    return;
+  }
+  const isWebp = uploadBlob.type === 'image/webp';
+  const ext = isWebp ? 'webp' : file.name.split('.').pop();
   const fileName = 'event-posters/' + Date.now() + '.' + ext;
 
   const { data, error } = await supabase.storage
     .from('community-assets')
-    .upload(fileName, file, { upsert: true, contentType: file.type });
+    .upload(fileName, uploadBlob, { upsert: true, contentType: uploadBlob.type });
 
   if (error) {
     statusEl.innerHTML = '<span style="color:red;">? Upload gagal: ' + error.message + '</span>';
@@ -841,9 +850,9 @@ window.editCommunity = async (id) => {
       fileInput.addEventListener('change', function() {
         const file = this.files[0];
         if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => { document.getElementById('edit-comm-logo').value = e.target.result; };
-          reader.readAsDataURL(file);
+          convertImageToWebpDataUrl(file)
+            .then((dataUrl) => { document.getElementById('edit-comm-logo').value = dataUrl; })
+            .catch((err) => alert('Gagal memproses gambar: ' + err.message));
         }
       });
     }
@@ -1001,9 +1010,9 @@ window.openAddCommunityModal = () => {
         fileInput.addEventListener('change', function() {
           const file = this.files[0];
           if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => { document.getElementById('edit-comm-logo').value = e.target.result; };
-            reader.readAsDataURL(file);
+            convertImageToWebpDataUrl(file)
+            .then((dataUrl) => { document.getElementById('edit-comm-logo').value = dataUrl; })
+            .catch((err) => alert('Gagal memproses gambar: ' + err.message));
           }
         });
       }

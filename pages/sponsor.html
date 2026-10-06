@@ -237,8 +237,16 @@
               <textarea id="sponsor-message" name="message" class="form-input"></textarea>
             </div>
             <div class="form-group">
-              <label class="form-label" for="sponsor-url">Link Proposal</label>
-              <input type="url" id="sponsor-url" name="proposal_url" class="form-input" autocomplete="url">
+              <label class="form-label">Proposal / Attachment</label>
+              <div style="display:flex; gap:1.25rem; margin-bottom:0.5rem; flex-wrap:wrap;">
+                <label style="display:flex; align-items:center; gap:0.4rem; cursor:pointer;"><input type="radio" name="proposal_mode" value="link" checked> Link Google Drive</label>
+                <label style="display:flex; align-items:center; gap:0.4rem; cursor:pointer;"><input type="radio" name="proposal_mode" value="pdf"> Upload PDF</label>
+              </div>
+              <input type="url" id="sponsor-url" name="proposal_url" class="form-input" placeholder="https://drive.google.com/..." autocomplete="url">
+              <div class="proposal-pdf-wrap" style="display:none;">
+                <input type="file" class="proposal-pdf" accept="application/pdf,.pdf" style="width:100%; padding:0.5rem; border:1px solid var(--c-border, #ddd); border-radius:8px; background:#fff;">
+                <small style="display:block; margin-top:0.35rem; color:#b45309;">&#9888; Format PDF, ukuran maksimal 2MB.</small>
+              </div>
             </div>
             <button type="submit" class="btn btn--primary btn--lg" style="width:100%;">
               <span class="btn__text">Kirim Sponsorship</span>
