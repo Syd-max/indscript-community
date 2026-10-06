@@ -2,6 +2,39 @@ import { supabase } from './supabase.js';
 import { requireAdmin, signOut } from './auth.js';
 import { convertImageToWebp, convertImageToWebpDataUrl } from './utils.js';
 
+
+// ---- Proposal review helpers (Collaborations & Sponsorships) ----
+window.proposalCell = function(url) {
+  if (!url) return '<span style="color:#999;">-</span>';
+  const safe = String(url).replace(/"/g, '&quot;').replace(/'/g, '%27');
+  const isPdf = /\/documents\/proposals\//.test(url) || /\.pdf($|\?)/i.test(url);
+  const btn = 'display:inline-block; border:none; border-radius:6px; padding:4px 8px; font-size:0.78rem; font-weight:600; text-decoration:none; cursor:pointer; color:#fff;';
+  if (isPdf) {
+    return '<div style="display:flex; gap:0.4rem; flex-wrap:wrap;">' +
+      '<a href="' + safe + '" target="_blank" rel="noopener" style="' + btn + 'background:#007bff;">Review PDF</a>' +
+      '<button type="button" style="' + btn + 'background:#6f42c1;" onclick="event.stopPropagation(); window.downloadProposal(\'' + safe + '\')">Download</button>' +
+      '</div>';
+  }
+  return '<a href="' + safe + '" target="_blank" rel="noopener" style="' + btn + 'background:#0d9488;">Buka Link</a>';
+};
+
+window.downloadProposal = async function(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const blob = await res.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'proposal-' + Date.now() + '.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  } catch (err) {
+    window.open(url, '_blank');
+  }
+};
+
 function formatWIB(dateString) {
   if (!dateString) return '-';
   const date = new Date(dateString);
@@ -489,7 +522,7 @@ async function loadCollaborations() {
       <td data-label="Email">${c.email}</td>
       <td data-label="WhatsApp" class="hide-col">${c.phone || '-'}</td>
       <td data-label="Description" class="hide-col">${c.description || '-'}</td>
-      <td data-label="Link" class="hide-col">${c.proposal_url ? `<a href="${c.proposal_url}" target="_blank" style="color:var(--c-primary);text-decoration:underline;">View Link</a>` : '-'}</td>
+      <td data-label="Proposal">${window.proposalCell(c.proposal_url)}</td>
       <td data-label="Date">${formatWIB(c.created_at)}</td>
       <td data-label="Status">
         <select onchange="window.updateStatus('collaborations', '${c.id}', this.value)" style="padding:4px;">
@@ -522,7 +555,7 @@ async function loadSponsorships() {
       <td data-label="Email">${s.email}</td>
       <td data-label="WhatsApp" class="hide-col">${s.phone || '-'}</td>
       <td data-label="Message" class="hide-col">${s.message || '-'}</td>
-      <td data-label="Link" class="hide-col">${s.proposal_url ? `<a href="${s.proposal_url}" target="_blank" style="color:var(--c-primary);text-decoration:underline;">View Link</a>` : '-'}</td>
+      <td data-label="Proposal">${window.proposalCell(s.proposal_url)}</td>
       <td data-label="Date">${formatWIB(s.created_at)}</td>
       <td data-label="Status">
         <select onchange="window.updateStatus('sponsorships', '${s.id}', this.value)" style="padding:4px;">
@@ -646,7 +679,7 @@ window.filterRegistrations = function() {
       }
       
       // Preserve HTML for status badges/selects and links, otherwise use text
-      const val = (label === 'Status' || label === 'Checked In' || label === 'Registration' || label === 'Link' || label === 'Logo' || label === 'Highlight') 
+      const val = (label === 'Status' || label === 'Checked In' || label === 'Registration' || label === 'Link' || label === 'Proposal' || label === 'Logo' || label === 'Highlight') 
                     ? td.innerHTML 
                     : td.textContent;
                   
