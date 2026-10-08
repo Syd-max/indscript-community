@@ -15,6 +15,9 @@
   padding: 0 var(--sp-xl);
   background: var(--c-white);
   border-bottom: 1px solid var(--c-border-light);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .admin-topbar__left {
